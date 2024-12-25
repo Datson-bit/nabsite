@@ -1,8 +1,7 @@
-{% load static %} 
+{% load static %} {% load tz%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-   
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
@@ -92,17 +91,14 @@
           <h5>Event Location:</h5>
           <p>{{venue }}</p>
 
-          {% if qr_code %}
           <div class="text-center mt-4">
             <h5>Scan QR Code at the Event:</h5>
             <img
               src="data:image/png;base64,{{ qr_code }}"
               alt="QR Code"
-              class="img-fluid"
               style="max-width: 200px"
             />
           </div>
-          {% endif %}
         </div>
         <div class="receipt-footer">
           <button onclick="window.print();" class="btn btn-primary">

@@ -100,7 +100,6 @@ def event_detail(request, event_id):
     
             #qrcode 
             qr_data = f"Event: {event.title}\nName: {registration.full_name}\nPass Code: {pass_code}"
-
              # Create QR code image
             qr = qrcode.QRCode(
                 version=1,
