@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %} NABWES | Blogs {% endblock %}
+
+{% block content %}
+
+
+        <!-- Header Start -->
+        <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-5" style="max-width: 900px;">
+                <h3 class="text-white display-3 mb-4">Latest News & Blog</h1>
+                <p class="fs-5 text-white mb-4">Explore insightful articles, updates, and stories crafted to inform, inspire, and engage!</p>
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item active text-white">Blog</li>
+                </ol>
+            </div>
+        </div>
+        <!-- Header End -->
+
+        <!-- Blog Start -->
+        <div class="container-fluid blog py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto pb-5" style="max-width: 800px;">
+                    <h5 class="text-uppercase text-primary">Latest News & Blog</h5>
+                    <h1 class="mb-0">Trending news and blog about Nabwes!
+                    </h1>
+                </div>
+                <div class="row g-4">
+                    {%for item in blog%}
+                    <div class="col-lg-6 col-xl-3">
+                        <div class="blog-item">
+                            <div class="blog-img">
+               
+                <img src="{{item.img_url.url}}" class="img-fluid w-100"  style="height: 300px" alt="">
+                                <div class="blog-info">
+                                    <span><i class="fa fa-clock"></i>{{item.date}}</span>
+                                    <div class="d-flex">
+                                        <span class="me-3"> {{item.view_count}}<i class="fa fa-heart"></i></span>
+                                        <a href="#" class="text-white">{{item.comment_count}} <i class="fa fa-comment"></i></a>
+                                    </div>
+                                </div>
+                                <div class="search-icon">
+                                    <a href="{{item.img_url.url}}" data-lightbox="Blog-1" class="my-auto"><i class="fas fa-search-plus btn-primary text-white p-3"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-dark border p-4 ">
+                                <h4 class="mb-4">{{item.title}}</h4>
+                                <p class="mb-4">{{item.desc}}</p>
+                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="{%url 'view' item.pk%}">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                                 </div>
+            </div>
+        </div>
+        <!-- Blog End -->
+        <nav aria-label="Blog Pagination">
+            <ul class="pagination justify-content-center">
+                {% if blog.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ blog.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+    
+                {% for num in blog.paginator.page_range %}
+                    {% if num == blog.number %}
+                        <li class="page-item active"><a class="page-link">{{ num }}</a></li>
+                    {% elif num > blog.number|add:'-3' and num < blog.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+    
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ blog.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ blog.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+{%endblock%}

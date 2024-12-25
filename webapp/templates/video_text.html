@@ -1,0 +1,141 @@
+{% extends "base.html" %} {%block content%}
+<title>{%block title%}Video Gallery {%endblock%}</title>
+<style>
+  /* General Styles */
+  body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f9f9f9;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #333333, #f8b864);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    height: 250px;
+  }
+
+  header .container h1 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+  h1 {
+    color: white;
+  }
+
+  header .container p {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Main Section */
+  main {
+    padding: 2rem;
+  }
+
+  /* Video Grid */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* Video Card */
+  .video-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .video-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .video-card h2 {
+    font-size: 1.2rem;
+    margin: 0.8rem;
+  }
+
+  .video-card p {
+    font-size: 0.9rem;
+    margin: 0.8rem;
+    color: #555;
+  }
+
+  /* Footer */
+  footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header .container h1 {
+      font-size: 2rem;
+      width: 200px;
+      text-align: center;
+    }
+
+    header .container p {
+      font-size: 1rem;
+    }
+  }
+</style>
+<header>
+  <br /><br /><br /><br />
+  <div class="container">
+    <h1>Video Gallery</h1>
+    <p>Explore our curated collection of videos.</p>
+  </div>
+</header>
+
+<main>
+  <div class="video-grid">
+    <!-- Video Item -->
+    <div class="video-card">
+      <video controls>
+        <source src="video1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <h2>Video Title 1</h2>
+      <p>Short description of the video goes here.</p>
+    </div>
+
+    <div class="video-card">
+      <video controls>
+        <source src="video2.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <h2>Video Title 2</h2>
+      <p>Another description about the content of this video.</p>
+    </div>
+
+    <div class="video-card">
+      <video controls>
+        <source src="video3.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <h2>Video Title 3</h2>
+      <p>Additional details about this video content.</p>
+    </div>
+  </div>
+</main>
+
+{%endblock%}

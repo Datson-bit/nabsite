@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ live_stream.title }}</title>
+  </head>
+  <body>
+    <h1>{{ live_stream.title }}</h1>
+    <p>{{ live_stream.description }}</p>
+
+    {% if live_stream %}
+    <!-- Example: Using a HLS stream -->
+    <video controls autoplay style="width: 100%; max-width: 800px">
+      <source src="{{ live_stream.stream_url }}" type="application/x-mpegURL" />
+      Your browser does not support live streaming.
+    </video>
+    {% else %}
+    <p>No live stream is currently active.</p>
+    {% endif %}
+  </body>
+</html>

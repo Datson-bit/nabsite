@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %} NABWES | Donations {% endblock %}
+
+{% block content %}
+<br><br><br>
+        <!-- Donation Start -->
+        <div class="container-fluid donation py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto pb-5" style="max-width: 800px;">
+                    <h5 class="text-uppercase text-primary">Donation </h5>
+                    <h2 class="mb-0">Your donations help us make a difference!</h2>
+                </div>
+                <head>
+                  <style>
+                    .donation-container {
+                      max-width: 600px;
+                      margin: auto;
+                      padding: 20px;
+                      border: 1px solid #ccc;
+                      border-radius: 10px;
+                      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    }
+                    .button {
+                      background-color: #28a745;
+                      color: white;
+                      padding: 10px 20px;
+                      text-decoration: none;
+                      border-radius: 5px;
+                      display: inline-block;
+                      margin-top: 15px;
+                    }
+                    .button:hover {
+                      background-color: #orange;
+                    }
+                    .info {
+                      margin-top: 20px;
+                      font-size: 0.9em;
+                      color: #555;
+                    }
+                  </style>
+                </head>
+        
+                  <div class="donation-container" style="text-align: center;">
+                    <h2>Steps to support us</h2>
+                    <p>Please follow the steps below to contribute:</p>
+                    <ol>
+                      <li>Send your donation to: 
+                        <br> Account Number: <strong>6417970825</strong>
+                        <br> Account Name: <strong>NABWEST</strong>
+                        <br> Bank Name: <strong>Moniepoint MFB</strong>
+                    </li>
+                      <li>Take a screenshot or photo of your payment receipt.</li>
+                      <li>Email the receipt to us at <a href="mailto:donations@nabwes.com">donations@nabwes.com</a></li>
+                    </ol>
+                    <a href="mailto:donations@nabwes.com?subject=Donation%20Receipt&body=Please%20find%20attached%20my%20donation%20receipt." class="button">Send Receipt</a>
+                    <div class="info">
+                      <p>Thank you for your generosity and support!</p>
+                    </div>
+                  </div>
+               
+                </div> 
+            </div>
+        </div>
+        </div>
+        <!-- Donation End -->
+
+{%endblock%}

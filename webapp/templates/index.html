@@ -1,0 +1,331 @@
+{% extends "base.html" %}  {%load static%} {% block title %} NABWES | Home
+{%endblock %} {% block content %}
+<body>
+  <!-- Carousel Start -->
+  <div class="container-fluid carousel-header vh-100 px-0">
+    <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+      <ol class="carousel-indicators">
+        <li
+          data-bs-target="#carouselId"
+          data-bs-slide-to="0"
+          class="active"
+        ></li>
+        <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
+        <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
+        <li data-bs-target="#carouselId" data-bs-slide-to="3"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+          <img
+            src="{% static 'img/carousel-1.jpg' %}"
+            class="img-fluid"
+            alt="Image"
+          />
+          <div class="carousel-caption">
+            <div class="p-3" style="max-width: 900px">
+              <h4
+                class="text-white text-uppercase fw-bold mb-4"
+                style="letter-spacing: 3px"
+              >
+                Prioritizing Members welfarism
+              </h4>
+              <h1 class="display-1 text-capitalize text-white mb-4">
+                National Association of Badagry West Students
+              </h1>
+              <p class="mb-5 fs-5">
+                Welcome to the National Association of Badagry West Students
+                (NABWES) <br />
+                <i> Empowering the Future of Badagry West </i>
+              </p>
+              <div class="d-flex align-items-center justify-content-center">
+                <a
+                  class="btn-hover-bg btn btn-primary text-white py-3 px-5"
+                  href="{%url 'blog'%}"
+                  >Explore</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        {%for item in carousel%}
+
+        <div class="carousel-item">
+          <img src="{{item.img_url}}" class="img-fluid" alt="Image" />
+          <div class="carousel-caption">
+            <div class="p-3" style="max-width: 900px">
+              <h4
+                class="text-white text-uppercase fw-bold mb-4"
+                style="letter-spacing: 3px"
+              >
+                Prioritizing Members welfarism
+              </h4>
+              <h1 class="display-1 text-capitalize text-white mb-4">
+                {{item.title}}
+              </h1>
+              <p class="mb-5 fs-5">{{item.desc}}</p>
+              <div class="d-flex align-items-center justify-content-center">
+                <a
+                  class="btn-hover-bg btn btn-primary text-white py-3 px-5"
+                  href="{%url 'view' item.pk%}"
+                  >Explore</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%} 
+        
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselId"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselId"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <!-- Carousel End -->
+
+  <!-- About Start -->
+  <div class="container-fluid about py-5">
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-xl-5">
+          <div class="h-100">
+            <img
+              src="https://res.cloudinary.com/djy17epwn/image/upload/v1694290348/nabwes_logo_immhgj.jpg"
+              class="img-fluid w-100 h-70"
+              alt="Image"
+            />
+          </div>
+        </div>
+        <div class="col-xl-7">
+          <h5 class="text-uppercase text-primary">About Us</h5>
+          <h1 class="mb-4">Towards Welfarism of members</h1>
+          <p class="fs-5 mb-4">
+            The National Association of Badagry West Students' (NABWES) was established in 2006/2007 by a group of students hailing from the Badagry West region, who were pursuing higher education in various tertiary institutions across the nation. They recognized the need for a home-based student union to create a bridge between home and their academic pursuits, particularly to reach out to the younger generation at the grassroots level...<a href="{%url 'about' %}">Read More</a>
+          </p>
+          <div class="tab-class bg-secondary p-4">
+            <ul class="nav d-flex mb-2">
+              <li class="nav-item mb-3">
+                <a
+                  class="d-flex py-2 text-center bg-white active"
+                  data-bs-toggle="pill"
+                  href="#tab-1"
+                >
+                  <span class="text-dark" style="width: 150px">About</span>
+                </a>
+              </li>
+              <li class="nav-item mb-3">
+                <a
+                  class="d-flex py-2 mx-3 text-center bg-white"
+                  data-bs-toggle="pill"
+                  href="#tab-2"
+                >
+                  <span class="text-dark" style="width: 150px">Mission</span>
+                </a>
+              </li>
+              <li class="nav-item mb-3">
+                <a
+                  class="d-flex py-2 text-center bg-white"
+                  data-bs-toggle="pill"
+                  href="#tab-3"
+                >
+                  <span class="text-dark" style="width: 150px">Vision</span>
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div id="tab-1" class="tab-pane fade show p-0 active">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <div class="text-start my-auto">
+                        <h5 class="text-uppercase mb-3">About Nabwes</h5>
+                        <p class="mb-4">
+                          The National Association of Badagry West Students' (NABWES) was established in 2006/2007 by a group of students hailing from the Badagry West region, who were pursuing higher education in various tertiary institutions across the nation. They recognized the need for a home-based student union to create a bridge between home and their academic pursuits, particularly to reach out to the younger generation at the grassroots level.
+                        </p>
+                        <div
+                          class="d-flex align-items-center justify-content-start"
+                        >
+                          <a
+                            class="btn-hover-bg btn btn-primary text-white py-2 px-4"
+                            href="{% url 'about' %}"
+                            >Read More</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab-2" class="tab-pane fade show p-0">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <div class="text-start my-auto">
+                        <h5 class="text-uppercase mb-3">Mission Statement</h5>
+                        <p class="mb-4">
+                          We aim to create a supportive, home-based student union that reaches out to younger students at the grassroots level. NABWES is dedicated to nurturing a sense of community, fostering mutual understanding among students from the Badagry West LCDA, and advocating for their educational rights and welfare. We want to ensure that students from Badagry West has a strong platform to connect, support one another, and empower the younger generation to achieve their academic and personal aspirations.
+                        </p>
+                        <div
+                          class="d-flex align-items-center justify-content-start"
+                        >
+                          <a
+                            class="btn-hover-bg btn btn-primary text-white py-2 px-4"
+                            href="{% url 'about' %}"
+                            >Read More</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab-3" class="tab-pane fade show p-0">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <div class="text-start my-auto">
+                        <h5 class="text-uppercase mb-3">Vision Statement</h5>
+                        <p class="mb-4">
+                          The vision of the National Association of Badagry West Students is to be the leading organization that unites and empowers students from Badagry West. We envision a future where every student from our region can readily access Support and resources through our association.
+                          NABWES aims to promote education, foster community
+                          ties, and create opportunities for personal and academic growth. We envision a united and vibrant community where students are aware of their rights and empowered to achieve their full potential. Our vision is a Badagry West where every student's welfare is protected, and their educational journey is enriched through our association.
+                        </p>
+                        <div
+                          class="d-flex align-items-center justify-content-start"
+                        >
+                          <a
+                            class="btn-hover-bg btn btn-primary text-white py-2 px-4"
+                            href="{%url 'about' %}"
+                            >Read More</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Events Start -->
+  <div class="container-fluid event py-5">
+    <div class="container py-5">
+      <div class="text-center mx-auto mb-5" style="max-width: 800px">
+        <h5 class="text-uppercase text-primary">Upcoming Events</h5>
+        <h1 class="mb-0">
+          Do well to attend anyone of your choice
+        </h1>
+      </div>
+      <div class="event-carousel owl-carousel">
+        {%for event in events%}
+        <div class="event-item">
+          <img
+            src="{{event.event_img_url}}"
+            class="img-fluid w-100"
+            alt="Image"
+          />
+          <div class="event-content p-4">
+            <div class="d-flex justify-content-between mb-4">
+              <span class="text-body"
+                ><i class="fas fa-map-marker-alt me-2"></i>{{event.venue}}</span
+              >
+              <span class="text-body"
+                ><i class="fas fa-calendar-alt me-2"></i>{{event.date}}</span
+              >
+            </div>
+            <h4 class="mb-4">{{event.title}}</h4>
+            <p class="mb-4">{{event.desc}}</p>
+            <a
+              class="btn-hover-bg btn btn-primary text-white py-2 px-4"
+              href="{%url 'event_detail' event.id%}"
+              >Read More</a
+            >
+          </div>
+        </div>
+        {%endfor%} {% comment %}
+        
+        {% endcomment %}
+      </div>
+    </div>
+  </div>
+  <!-- Events End -->
+
+  <!-- Blog Start -->
+  <div class="container-fluid blog py-5 mb-5">
+    <div class="container py-5">
+      <div class="text-center mx-auto pb-5" style="max-width: 800px">
+        <h5 class="text-uppercase text-primary">Latest News</h5>
+        <h1 class="mb-0">Catch up with our latest news</h1>
+      </div>
+      <div class="row g-4">
+        {%for blog in blogs%}
+
+        <div class="col-lg-6 col-xl-3">
+          <div class="blog-item">
+            <div class="blog-img">
+              <img
+                src="{{blog.img_url}}"
+                class="img-fluid w-100"
+                style="height: 300px"
+                alt=""
+              />
+              <div class="blog-info">
+                <span><i class="fa fa-clock"></i> {{blog.date}}</span>
+                <div class="d-flex">
+                  <span class="me-3">
+                    {{blog.view_count}} <i class="fa fa-heart"></i
+                  ></span>
+                  <a href="#" class="text-white">
+                    {{blog.comment_count}} <i class="fa fa-comment"></i
+                  ></a>
+                </div>
+              </div>
+              <div class="search-icon">
+                <a
+                  href="{{blog.img_url}}"
+                  data-lightbox="Blog-1"
+                  class="my-auto"
+                  ><i class="fas fa-search-plus btn-primary text-white p-3"></i
+                ></a>
+              </div>
+            </div>
+            <div class="text-dark border p-4">
+              <h4 class="mb-4">{{blog.title}}</h4>
+              <p class="mb-4">{{blog.desc}}</p>
+              <a
+                class="btn-hover-bg btn btn-primary text-white py-2 px-4"
+                href="{%url 'view' blog.pk%}"
+                >Read More</a
+              >
+            </div>
+          </div>
+        </div>
+        {%endfor%} {% comment %}
+ 
+
+        {% endcomment %}
+      </div>
+    </div>
+  </div>
+  <!-- Blog End -->
+
+</body>
+{% endblock%}

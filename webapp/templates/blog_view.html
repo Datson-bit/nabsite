@@ -1,0 +1,110 @@
+{%extends 'base.html' %} {%block content %} <br /><br /><br />
+{%load static%}
+<div class="container my-4">
+  <!-- Blog Post -->
+  <div class="card mb-4">
+    <img src="{{blogs.img_url.url}}" class="card-img-top" alt="Blog Image" />
+    <div class="card-body">
+      <h1 class="card-title">{{blogs.title}}</h1>
+      <div class="d-flex align-items-center mb-3">
+        <img
+          src="{{blogs.authour_img.url}}"
+          class="rounded-circle me-3"
+          alt="Author Image"
+          style="height: 50px; width: 50px"
+        />
+        <div>
+          <h6 class="mb-0">By <strong>{{blogs.authour}}</strong></h6>
+          <small class="text-muted"
+            >Published on <strong>{{blogs.date}}</strong></small
+          >
+        </div>
+      </div>
+      <p class="card-text">{{blogs.body| safe}}</p>
+    </div>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="comments-section mb-4">
+    <h2>Comments</h2>
+    <!-- Comment 1 -->
+    {%for comment in comments%}
+    <div class="mb-3">
+      <div class="d-flex align-items-start">
+        <img
+          src="https://via.placeholder.com/50"
+          class="rounded-circle me-3"
+          alt="User Avatar"
+        />
+        <div>
+          <h6 class="fw-bold mb-0">{{comment.author}}</h6>
+          <small class="text-muted"
+            >Posted on <span>{{comment.created_date}}</span></small
+          >
+          <p class="mb-0">{{comment.text}}</p>
+        </div>
+      </div>
+    </div>
+    {%endfor%}
+    <!-- Comment 2
+    <div class="mb-3">
+      <div class="d-flex align-items-start">
+        <img
+          src="https://via.placeholder.com/50"
+          class="rounded-circle me-3"
+          alt="User Avatar"
+        />
+        <div>
+          <h6 class="fw-bold mb-0">Jane Smith</h6>
+          <small class="text-muted">Posted on Nov 28, 2024</small>
+          <p class="mb-0">Thanks for sharing! This was very helpful.</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+    <!-- <form method="post">{{form.as_p}}</form> -->
+    <!-- Comment Form -->
+    <div class="comment-form">
+      <h2>Leave a Comment</h2>
+      <form method="post">
+        {%csrf_token%}
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="author"
+            id="id_author"
+            placeholder="Your Name"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="id_email"
+            name="email"
+            placeholder="Your Email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="comment" class="form-label">Comment</label>
+          <textarea
+            class="form-control"
+            id="id_text"
+            rows="4"
+            placeholder="Your Comment"
+            name="text"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

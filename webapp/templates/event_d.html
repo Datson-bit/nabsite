@@ -1,0 +1,141 @@
+{%extends 'base.html'%} {%block content%}
+<style>
+  #countdown {
+      text-align: center;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+  }
+  #timer {
+      font-size: 2rem;
+      color: #F8B864;
+  }
+</style>
+
+<div class="container my-5">
+  <br><br><br> 
+  <div class="row">
+    <!-- Event Details Section -->
+    <div class="col">
+      <img src="{{event.event_img_url.url}}" class="card-img-top" alt="Blog Image" />
+      <h1 class="display-4">{{ event.name }}</h1>
+      <p class="lead">{{ event.description }}</p>
+      <hr />
+      <p><strong>Date:</strong> {{ event.date|date }}</p>
+      <p><strong>Location:</strong> {{ event.venue }}</p>
+      <p><strong>Capacity:</strong> {{ event.capacity }}</p>
+
+      <div>{{event.body|safe}}</div>
+        <!-- Attendee Count with Animation -->
+        <div class="mt-4">
+          <h3>Registered Attendees</h3>
+          <p class="display-5">
+              <span id="attendeeCount" data-count="{{ event.registrations.count }}">0</span>
+          </p>
+      </div>
+      </div>
+
+      {% if event.registrations.count >= event.capacity %}
+      <div class="alert alert-danger mt-3">This event is fully booked!</div>
+      {% endif %}
+
+     <!-- Countdown Timer -->
+    <div id="countdown" class="mt-4">
+      <h3>Time Left:</h3>
+      <p id="timer" class="display-5">Loading...</p>
+  </div>
+</div>
+
+    <!-- Sponsors Section -->
+    <div class="mt-5">
+      <h3>Sponsors</h3>
+      <div class="row">
+          {% for sponsor in sponsors %}
+              <div class="col-md-3 col-sm-6 text-center mb-4">
+                  <a href="{{ sponsor.website }}" target="_blank">
+                      <img src="{{ sponsor.logo.url }}" alt="{{ sponsor.name }}" class="img-fluid" style="max-height: 150px;">
+                  </a>
+                  <p>{{ sponsor.name }}</p>
+              </div>
+          {% empty %}
+              <p>No sponsors for this event yet.</p>
+          {% endfor %}
+      </div>
+
+    <!-- Registration Form Section -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Register Now</h4>
+          <form method="post">
+            {% csrf_token %} 
+            <input type="text" name="full_name" placeholder="Full Name" class="form-control"maxlength="255" required id="id_full_name">
+          <br>  <input type="email" placeholder="Email" class="form-control" name="email" maxlength="254" required id="id_email">
+           <br> <input type="text" name="phone" placeholder="Phone" class="form-control" maxlength="20" id="id_phone">
+          <br>  <button
+              type="submit"
+              class="btn btn-primary w-100"  {%if  event.registrations.count >= event.capacity %} disabled {% endif %}> Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const counter = document.getElementById('attendeeCount');
+      if (counter) {
+          const countTo = parseInt(counter.getAttribute('data-count'), 10);
+
+          let count = 0;
+          const duration = 1000; // Duration of animation in milliseconds
+          const intervalTime = 15; // Update every 15ms
+          const steps = Math.ceil(duration / intervalTime); // Number of steps
+          const increment = countTo / steps;
+
+          const interval = setInterval(() => {
+              count += increment;
+              if (count >= countTo) {
+                  counter.textContent = countTo;
+                  clearInterval(interval);
+              } else {
+                  counter.textContent = Math.floor(count);
+              }
+          }, intervalTime);
+      }
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    const eventDate = new Date("{{ event_date }}").getTime(); // Event date and time in JS
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const timeLeft = eventDate - now;
+
+        if (timeLeft <= 0) {
+            document.getElementById("timer").textContent = "Event Started!";
+            clearInterval(interval);
+            return;
+        }
+
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").textContent =
+            `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+    }
+
+    // Update countdown every 1 second
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Run immediately
+});
+</script>
+
+  {%endblock%}

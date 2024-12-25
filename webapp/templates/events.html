@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %} NABWES | Events {% endblock %}
+
+{% block content %}
+        <!-- Header Start -->
+        <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-5" style="max-width: 900px;">
+                <h3 class="text-white display-3 mb-4">Upcoming Events</h1>
+                <p class="fs-5 text-white mb-4">Check out for Nabwes upcoming events!</p>
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item active text-white">Events</li>
+                </ol>    
+            </div>
+        </div>
+        <!-- Header End -->
+
+        <!-- Events Start -->
+        <div class="container-fluid event py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto mb-5" style="max-width: 800px;">
+                    <h5 class="text-uppercase text-primary">Upcoming Events</h5>
+                    <h1 class="mb-0">Register for any upcoming events!</h1>
+                </div>
+                <div class="event-carousel owl-carousel">
+                    {%for event in events%}
+                    <div class="event-item">
+                        <img src="{{event.event_img_url.url}}" class="img-fluid w-100" alt="Image">
+                        <div class="event-content p-4">
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="text-body"><i class="fas fa-map-marker-alt me-2"></i>{{event.venue}}</span>
+                                <span class="text-body"><i class="fas fa-calendar-alt me-2"></i>{{event.date}}</span>
+                            </div>
+                            <h4 class="mb-4">{{event.title}}</h4>
+                            <p class="mb-4">{{event.desc}}</p>
+                            <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="{%url 'event_detail' event.id%}">Read More</a>
+                        </div>
+                    </div>
+              {%endfor%}
+                </div>
+            </div>
+        </div>
+        <!-- Events End -->
+
+
+{%endblock%}

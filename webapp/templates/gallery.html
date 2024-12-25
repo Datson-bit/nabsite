@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %} NABWES | Gallery {% endblock %}
+
+{% block content %}
+  
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <style>
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-card img {
+            width: 100%;
+            height: 200px; /* Set a consistent height for images */
+            object-fit: cover;
+        }
+        .gallery-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-card:hover .gallery-caption {
+            opacity: 1;
+        }
+    </style>
+
+        <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-5" style="max-width: 900px;">
+                <h3 class="text-white display-3 mb-4">Image Gallery</h1>
+                <p class="fs-5 text-white mb-4">Work through our gallery and see some of our achievements!</p>
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item active text-white">Gallery</li>
+                </ol>    
+            </div>
+        </div>
+        <!-- Header End -->
+
+     <br><br>
+        <br>              
+         <h1 class="mb-4 text-primary text-center mx-auto pb-5">Pictorial evidence of our programs</h1>
+
+                
+                <div class="container my-4">
+                    <div class="row gy-4">
+                        {% for gallery in galleries %}
+                        {% for image in gallery.images.all %}             
+                                       <div class="col-lg-4 col-md-6">
+                                <div class="card gallery-card">
+                                    <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+                                    <div class="gallery-caption">
+                                        <a  data-lightbox="Blog-1"
+                                            class="my-auto" href="{{image.image.url}}"> 
+                                            <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="img-thumbnail mb-2" style="max-width: 100%;">
+                                        </a>    
+                                        <h5 class="mb-0" style="color: bisque;">{{ image.gallery.title }}</h5>
+                                        <small>{{ image.caption }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {%endfor%}
+                    </div>
+                
+                               </div>
+  <!-- paginator links -->
+                               <nav aria-label="Gallery Pagination">
+                                <ul class="pagination justify-content-center">
+                                    {% if galleries.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=1" aria-label="First">
+                                                <span aria-hidden="true">&laquo;&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ galleries.previous_page_number }}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                        
+                                    {% for num in item.paginator.page_range %}
+                                        {% if num == galleries.number %}
+                                            <li class="page-item active"><a class="page-link">{{ num }}</a></li>
+                                        {% elif num > galleries.number|add:'-3' and num < galleries.number|add:'3' %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                        
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ item.next_page_number }}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ item.paginator.num_pages }}" aria-label="Last">
+                                                <span aria-hidden="true">&raquo;&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                                
+                      
+{%endblock%}

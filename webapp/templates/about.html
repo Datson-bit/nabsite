@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %} NABWES | About {% endblock %}
+
+{% block content %}
+        <!-- Header Start -->
+        <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-5" style="max-width: 900px;">
+                <h3 class="text-white display-3 mb-4">About Us</h1>
+                <p class="fs-5 text-white mb-4">Help today because tomorrow you may be the one who needs more helping!</p>
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item active text-white">About Us</li>
+                </ol>    
+            </div>
+        </div>
+        <!-- Header End -->
+
+<!-- About Start -->
+        <div class="container-fluid about  py-5">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-xl-5">
+                        <div class="h-100">
+                            <img src="https://res.cloudinary.com/djy17epwn/image/upload/v1694290348/nabwes_logo_immhgj.jpg"
+                                 class="img-fluid w-100 h-70" alt="Image">
+                        </div>
+                    </div>
+                    <div class="col-xl-7">
+                        <h5 class="text-uppercase text-primary">About Us</h5>
+                        <h1 class="mb-4">Towards Welfarism of members </h1>
+                        <p class="fs-5 mb-4">The National Association of Badagry West Students' (NABWES) was established in 2006/2007 by a group of students hailing from the Badagry West region, who were pursuing higher education in various tertiary institutions across the nation. They recognized the need for a home-based student union to create a bridge between home and their academic pursuits, particularly to reach out to the younger generation at the grassroots level.
+                        </p>
+                        <p class="fs-5 mb-4">NABWES was founded with the primary purpose of fostering a sense of community among students from Badagry West, providing a platform for them to connect, and strengthening the bonds that tie them to their home region. Additionally, the association was formed to cater to the welfare of its members and to act as an advocate for their rights within the educational system.                            
+                        </p>
+                        <p class="fs-5 mb-4">Over the span of <span id="start-year"> </span> years, NABWES has witnessed the transition of seven different administrations within both the students' executive council and the students' parliamentary council. Through these changes in leadership, NABWES has continued to fulfill its mission of supporting Badagry West students and ensuring that their voices are heard, leaving a significant impact on the education and well-being of its members.
+                        </p>
+                        <div class="tab-class bg-secondary p-4">
+                            <ul class="nav d-flex mb-2">
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 text-center bg-white active" data-bs-toggle="pill" href="#tab-1">
+                                        <span class="text-dark" style="width: 150px;">Mission</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 mx-3 text-center bg-white" data-bs-toggle="pill" href="#tab-2">
+                                        <span class="text-dark" style="width: 150px;">Vision</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane fade show p-0 active">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex">
+                                                <div class="text-start my-auto">
+                                                    <h5 class="text-uppercase mb-3">Mission Statement </h5>
+                                                    <p class="mb-4">We aim to create a supportive, home-based student union that reaches out to younger students at the grassroots level. NABWES is dedicated to nurturing a sense of community, fostering mutual understanding among students from the Badagry West LCDA, and advocating for their educational rights and welfare. We want to ensure that students from Badagry West has a strong platform to connect, support one another, and empower the younger generation to achieve their academic and personal aspirations.                                          
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-2" class="tab-pane fade show p-0">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex">
+                                                <div class="text-start my-auto">
+                                                    <h5 class="text-uppercase mb-3">Vision Statement </h5>
+                                                    <p class="mb-4">The vision of the National Association of Badagry West Students is to be the leading organization that unites and empowers students from Badagry West. We envision a future where every student from our region can readily access Support and resources through our association.
+                                                    NABWES aims to promote education, foster community
+                                                    ties, and create opportunities for personal and academic growth. We envision a united and vibrant community where students are aware of their rights and empowered to achieve their full potential. Our vision is a Badagry West where every student's welfare is protected, and their educational journey is enriched through our association. </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+        <script>
+            const startYear = 2006;
+            const currentYear = new Date().getFullYear();
+            const yearsOfExistence = currentYear - startYear;
+        
+            document.getElementById("start-year").textContent = 
+              `${yearsOfExistence}`;
+          </script>
+{%endblock%}

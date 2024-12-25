@@ -1,0 +1,32 @@
+{% extends "base.html" %} {%block content%}
+<title>{%block title%}Video Gallery {%endblock%}</title>
+<style></style>
+<header>
+  <br /><br /><br /><br />
+  <div class="container">
+    <h1 style="color: white">Video Gallery</h1>
+    <p>Explore our curated video clips from past programs and events</p>
+  </div>
+</header>
+
+<main>
+  <h1 class="mb-4 text-primary text-center mx-auto pb-5">
+    Video evidence of our programs
+  </h1>
+
+  <div class="video-grid">
+    <!-- Video Item -->
+    {%for video in videos%}
+    <div class="video-card">
+      <video controls>
+        <source src="{{video.video_file.url}}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <h2>{{video.title}}</h2>
+      <p>{{video.description}}</p>
+    </div>
+
+    {%endfor%}
+  </div>
+</main>
+{%endblock%}
