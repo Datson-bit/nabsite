@@ -238,7 +238,7 @@
         {%for event in events%}
         <div class="event-item">
           <img
-            src="{{event.event_img_url}}"
+            src="{{event.event_img_url.url}}"
             class="img-fluid w-100"
             alt="Image"
           />
@@ -260,7 +260,8 @@
             >
           </div>
         </div>
-        {%endfor%} {% comment %}
+        {%endfor%} 
+        {% comment %}
         
         {% endcomment %}
       </div>
@@ -282,7 +283,7 @@
           <div class="blog-item">
             <div class="blog-img">
               <img
-                src="{{blog.img_url}}"
+                src="{{blog.img_url.url}}"
                 class="img-fluid w-100"
                 style="height: 300px"
                 alt=""
