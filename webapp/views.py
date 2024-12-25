@@ -97,8 +97,27 @@ def event_detail(request, event_id):
             registration.save()
             pass_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k= 8))
             EventPass.objects.create(registration=registration, pass_code=pass_code)
+    
+            #qrcode 
+            qr_data = f"Event: {registration.event.title}\nName: {registration.full_name}\nPass Code: {registration.event_pass.pass_code}"
 
-                
+             # Create QR code image
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(qr_data)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+
+            # Convert QR code to base64
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+
+
              # Send confirmation email
             subject = f"Registration Confirmation for {event.title}"
             message = f"Thank you for registering for {event.title}! Your pass code is {pass_code}."
@@ -106,7 +125,10 @@ def event_detail(request, event_id):
                 'event_name': event.title,
                 'user_name': registration.full_name,
                 'pass_code': pass_code,
+                'email': registration.email,
                 'event_date': event.date,
+                'venue':event.venue,
+                'qr_code': qr_base64,
             })
             send_mail(
                 subject,
@@ -151,7 +173,7 @@ def registration_success(request, registration_id):
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
 
-    return render(request, 'registrat_success.html', {'registration': registration, 'qr_code': qr_base64})
+    return render(request, 'registration_success.html', {'registration': registration, 'qr_code': qr_base64})
 
 
 def gallery(request):

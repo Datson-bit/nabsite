@@ -30,6 +30,13 @@
         text-align: center;
         margin-top: 20px;
       }
+      .btn {
+        height: 50px;
+        width: 50px;
+        background-color: green;
+        border: none;
+        border-radius: 5px;
+      }
     </style>
   </head>
   <body>
@@ -38,21 +45,21 @@
       <br /><br />
       <div class="receipt-card">
         <div class="receipt-header">
-          <h2>{{ event_title}}</h2>
+          <h2>{{ event_name}}</h2>
           <p>{{ event_date }}</p>
         </div>
         <div class="card-body">
           <h4>Attendee Information</h4>
           <p><strong>Name:</strong> {{ user_name }}</p>
-          <p><strong>Email:</strong> {{ registration.email }}</p>
+          <p><strong>Email:</strong> {{ email }}</p>
           <p>
             <strong>Pass Code:</strong>
             <span class="badge bg-success">{{ pass_code }}</span>
           </p>
           <hr />
           <h5>Event Location:</h5>
-          <p>{{ registration.event.venue }}</p>
-<!-- 
+          <p>{{venue }}</p>
+
           {% if qr_code %}
           <div class="text-center mt-4">
             <h5>Scan QR Code at the Event:</h5>
@@ -63,7 +70,7 @@
               style="max-width: 200px"
             />
           </div>
-          {% endif %} -->
+          {% endif %}
         </div>
         <div class="receipt-footer">
           <button onclick="window.print();" class="btn btn-primary">
