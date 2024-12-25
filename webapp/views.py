@@ -98,11 +98,11 @@ def event_detail(request, event_id):
             pass_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k= 8))
             EventPass.objects.create(registration=registration, pass_code=pass_code)
 
-
+                
              # Send confirmation email
             subject = f"Registration Confirmation for {event.title}"
             message = f"Thank you for registering for {event.title}! Your pass code is {pass_code}."
-            html_message = render_to_string('registration_success.html', {
+            html_message = render_to_string('emails/event_reg_mail.html', {
                 'event_name': event.title,
                 'user_name': registration.full_name,
                 'pass_code': pass_code,
@@ -129,7 +129,7 @@ def event_detail(request, event_id):
 
 def registration_success(request, registration_id):
     registration = get_object_or_404(Registration, id= registration_id)
-   
+    
     # Generate QR code
 
     # Generate QR code data
@@ -151,7 +151,7 @@ def registration_success(request, registration_id):
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
 
-    return render(request, 'registration_success.html', {'registration': registration, 'qr_code': qr_base64})
+    return render(request, 'registrat_success.html', {'registration': registration, 'qr_code': qr_base64})
 
 
 def gallery(request):
