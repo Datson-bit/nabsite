@@ -102,7 +102,7 @@ def event_detail(request, event_id):
              # Send confirmation email
             subject = f"Registration Confirmation for {event.title}"
             message = f"Thank you for registering for {event.title}! Your pass code is {pass_code}."
-            html_message = render_to_string('emails/event_reg_mail.html', {
+            html_message = render_to_string('registration_success.html', {
                 'event_name': event.title,
                 'user_name': registration.full_name,
                 'pass_code': pass_code,
