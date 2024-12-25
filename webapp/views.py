@@ -99,7 +99,7 @@ def event_detail(request, event_id):
             EventPass.objects.create(registration=registration, pass_code=pass_code)
     
             #qrcode 
-            qr_data = f"Event: {registration.event.title}\nName: {registration.full_name}\nPass Code: {registration.event_pass.pass_code}"
+            qr_data = f"Event: {event.title}\nName: {registration.full_name}\nPass Code: {pass_code}"
 
              # Create QR code image
             qr = qrcode.QRCode(
