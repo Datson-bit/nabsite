@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'ckeditor',
     'taggit',
     'qrcode',
-    'import_export'
+    'import_export',
+    'accounts',
+    'crispy_forms',
+    'crispy_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -168,3 +171,6 @@ EMAIL_PORT = 587  # Use 465 for SSL or 587 for TLS
 EMAIL_USE_TLS = True  # Use SSL/TLS as required by your provider
 EMAIL_HOST_USER = 'semescot@gmail.com'  # Replace with your email
 EMAIL_HOST_PASSWORD = 'oamxenatxpguysrv'  # Replace with your email password or app password
+
+CRISPY_ALLOWED_TEMPLATES_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = "bootstrap5"

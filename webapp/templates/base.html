@@ -54,7 +54,7 @@
 
   /* Header */
   header {
-    background: linear-gradient(135deg, #333333, #F8B864);
+    background: linear-gradient(135deg, rgb(155, 181, 173), rgb(23, 181, 107));
     color: white;
     padding: 2rem 0;
     text-align: center;
@@ -187,7 +187,7 @@
             <div class="col-md-8">
               <div class="topbar-info d-flex flex-wrap">
                 <a href="mailto:info@nabwes.com" class="text-light me-4">
-                  <i class="fas fa-envelope text-white me-2"></i>nabwes@gmail.com</a>
+                  <i class="fas fa-envelope text-white me-2"></i>info@nabwes.com</a>
                 <a href="tel:+2349079453337" class="text-light">
                   <i class="fas fa-phone-alt text-white me-2"></i>Call Us Now</a>
               </div>
@@ -226,23 +226,21 @@
           </button>
           <div class="collapse navbar-collapse bg-light" id="navbarCollapse">
             <div class="navbar-nav ms-auto">
-              <a href="{% url 'home' %}" class="nav-item nav-link active"
-                >Home</a
-              >
-              <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-              <a href="{% url 'blog' %}" class="nav-item nav-link">Blog</a>
-              <a href="{% url 'events' %}" class="nav-item nav-link">Events</a>
+              <a href="{% url 'home' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+              <a href="{% url 'about' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a>
+              <a href="{% url 'blog' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">Blog</a>
+              <a href="{% url 'events' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'events' %}active{% endif %}">Events</a>              
               {% comment %} <a href="{% url 'gallery' %}" class="nav-item nav-link">Gallery</a> {% endcomment %}
-              <div class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" >Gallery</a>
+              <div class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'gallery' or request.resolver_match.url_name == 'video' %}active{% endif %}" data-bs-toggle="dropdown" >Gallery</a>
                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                <a href="{% url 'gallery' %}" class="dropdown-item"> Images</a>
-                <a href="{% url 'video' %}" class="dropdown-item">Videos</a>
+                  <a href="{% url 'gallery' %}" class="dropdown-item {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}">Images</a>
+                  <a href="{% url 'video' %}" class="dropdown-item {% if request.resolver_match.url_name == 'video' %}active{% endif %}">Videos</a>
                 </div>
               </div>
-              <div class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" >Council</a>
+              <div class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'executives' %}active{% endif %}" data-bs-toggle="dropdown" >Council</a>
                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                <a href="{% url 'executives' %}" class="dropdown-item"> Executive Council</a>
-                <a href="{% url 'team_spc' %}" class="dropdown-item">Parliamentary Council</a>
+                  <a href="{% url 'executives' %}" class="dropdown-item {% if request.resolver_match.url_name == 'executives' %}active{% endif %}">Executive Council</a>
+                  <a href="{% url 'team_spc' %}" class="dropdown-item {% if request.resolver_match.url_name == 'team_spc' %}active{% endif %}">Parliamentary Council</a>
                 </div>
               </div>
               <a href="{% url 'contact' %}" class="nav-item nav-link"
@@ -324,7 +322,7 @@
               <h4 class="mb-4 text-white">Contact</h4>
                         <p><i class="fa fa-map-marker-alt me-3"></i>10 Adisa Shop, Ganyingbo Topa</p>
                         <p><i class="fa fa-phone-alt me-3"></i>0907 9453 337</p>
-                        <p><i class="fa fa-envelope me-3"></i>nabwes@info.com</p>
+                        <p><i class="fa fa-envelope me-3"></i>info@nabwes.com</p>
                     </div>
                 </div>
           <div class="col-md-6 col-lg-6 col-xl-3">
@@ -387,9 +385,9 @@
             <a
               class="border-bottom"
               href="https://www.legiteduconsults.com/about"
-              >Tande Semeton, CEO LEC</a
+              >Tande Semeton</a
             >
-            <p><a href="https://htmlcodex.com">Html Codex</a></p>
+            <p><a href="mailto:semescot@gmail.com">CEO Legit Edu Consults</a></p>
           </div>
         </div>
       </div>

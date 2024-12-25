@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event,Blog, Gallery,Video, Sponsor,Comment,Subscriber, GalleryImage, Executives, Parliamentary, Registration, EventPass, LiveStream
+from .models import Event,Blog, HomeGallery,Gallery,Video, Sponsor,Comment,Subscriber, GalleryImage, Executives, Parliamentary, Registration, EventPass, LiveStream
 from import_export.admin import ExportMixin
 from import_export import resources
 from import_export.fields import Field
@@ -10,6 +10,7 @@ admin.site.site_title = "Nabwes Admin Portal"
 
 admin.site.register(Blog)
 admin.site.register(Comment)
+admin.site.register(HomeGallery)
 class EventPassResource(resources.ModelResource):
     # Add fields from related models
     full_name = resources.Field(attribute='registration__full_name', column_name='Full Name')

@@ -1,0 +1,187 @@
+{%load crispy_forms_tags%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Register</title>
+    <style>
+          /* Body and Background */
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: 'Roboto', sans-serif;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('your-background-image.jpg') no-repeat center center fixed;
+          background-size: cover;
+          animation: backgroundAnimation 10s infinite alternate;
+      }
+
+      /* Background Animation */
+      @keyframes backgroundAnimation {
+          0% { background-size: 100%; }
+          50% { background-size: 110%; }
+          100% { background-size: 100%; }
+      }
+
+      /* Form Container */
+      form {
+          background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+          border-radius: 12px; /* Rounded corners */
+          padding: 30px 25px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Strong shadow */
+          width: 100%;
+          max-width: 500px;
+          animation: fadeIn 1.5s ease-in-out;
+      }
+
+      /* Fade-in Animation */
+      @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Input Fields */
+      .form-control {
+          border-radius: 8px;
+          font-size: 1rem;
+          padding: 10px;
+          border: 1px solid #ced4da;
+          transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      .form-control:focus {
+          border-color: #80bdff;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+          outline: none;
+      }
+
+      /* Invalid Input */
+      .is-invalid {
+          border-color: #dc3545;
+          box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+      }
+
+      /* Form Text */
+      .form-text {
+          color: #6c757d;
+    </style>
+  </head>
+  <body>
+    <h2>Register View</h2>
+
+    <form
+      method="POST"
+      action=""
+      class="needs-validation mx-auto p-4 bg-light rounded shadow"
+      style="max-width: 500px"
+      novalidate
+    >
+      <!-- CSRF Token -->
+      {%csrf_token%}
+      <!-- Form Heading -->
+      <h2 class="text-center mb-4">Register</h2>
+
+      <!-- Username Field -->
+      <div class="mb-3">
+        <label for="id_username" class="form-label requiredField"
+          >Username</label
+        >
+        <input
+          type="text"
+          name="username"
+          maxlength="150"
+          autocapitalize="none"
+          autocomplete="username"
+          autofocus
+          class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+          required
+          id="id_username"
+          placeholder="Enter your username"
+        />
+        <div class="form-text">
+          Required. 150 characters or fewer. Letters, digits, and @/./+/-/_
+          only.
+        </div>
+        {% if form.username.errors %}
+        <div class="invalid-feedback">{{ form.username.errors|join:" " }}</div>
+        {% endif %}
+      </div>
+      <!-- Email Field -->
+      <div class="mb-3">
+        <label for="id_email" class="form-label requiredField">Email</label>
+        <input
+          type="email"
+          name="email"
+          maxlength="320"
+          class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+          required
+          id="id_email"
+          placeholder="Enter your email address"
+        />
+        {% if form.email.errors %}
+        <div class="invalid-feedback">{{ form.email.errors|join:" " }}</div>
+        {% endif %}
+      </div>
+      <!-- Password Field -->
+      <div class="mb-3">
+        <label for="id_password1" class="form-label requiredField"
+          >Password</label
+        >
+        <input
+          type="password"
+          name="password1"
+          autocomplete="new-password"
+          class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+          required
+          id="id_password1"
+          placeholder="Create a strong password"
+        />
+        <div class="form-text">
+          <ul class="mb-0 ps-3">
+            <li>At least 8 characters.</li>
+            <li>Cannot be entirely numeric.</li>
+            <li>Avoid using personal information.</li>
+          </ul>
+        </div>
+        {% if form.password1.errors %}
+        <div class="invalid-feedback">{{ form.password1.errors|join:" " }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="mb-3">
+        <label for="id_password2" class="form-label requiredField"
+          >Confirm Password</label
+        >
+        <input
+          type="password"
+          name="password2"
+          autocomplete="new-password"
+          class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+          required
+          id="id_password2"
+          placeholder="Repeat your password"
+        />
+        <div class="form-text">Enter the same password for verification.</div>
+        {% if form.password2.errors %}
+        <div class="invalid-feedback">{{ form.password2.errors|join:" " }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </form>
+  </body>
+</html>

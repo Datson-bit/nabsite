@@ -1,12 +1,13 @@
 from django.shortcuts import render,get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
-from .models import Gallery,Subscriber, Video, Blog, Event, Comment, Registration, EventPass, Executives, Parliamentary, LiveStream
+from .models import Gallery,GalleryImage, Subscriber, Video, Blog, Event, Comment, Registration, EventPass, Executives, Parliamentary, LiveStream
 from .forms import CommentForm, RegistrationForm, SubscriberForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.files.base import ContentFile
 import random
 import string
 import qrcode
@@ -18,7 +19,7 @@ def home(request):
     blog = Blog.objects.all().order_by('-id')[:8]
     carousel = Blog.objects.all().order_by('-id')[:3]
     event = Event.objects.all().order_by('-id')[:5]
-    gallery = Gallery.objects.all().order_by('-id')[:4]
+    gallery = GalleryImage.objects.all().order_by('-id')[:6]
 
     return render(request, 'index.html', {'blogs': blog, 'carousel': carousel, 'gallery': gallery, 'events':event})
 
@@ -100,6 +101,7 @@ def event_detail(request, event_id):
     
             #qrcode 
             qr_data = f"Event: {event.title}\nName: {registration.full_name}\nPass Code: {pass_code}"
+
              # Create QR code image
             qr = qrcode.QRCode(
                 version=1,
@@ -114,8 +116,10 @@ def event_detail(request, event_id):
             # Convert QR code to base64
             buffer = BytesIO()
             img.save(buffer, format="PNG")
-            qr_base64 = base64.b64encode(buffer.getvalue()).decode()
-
+            # Save the QR code image temporarily to a URL-accessible location
+            qr_filename = f"qr_code_{registration.id}.png"
+            qr_image = ContentFile(buffer.getvalue(), name=qr_filename)
+            qr_url = request.build_absolute_uri(f"/media/{qr_image.name}")
 
              # Send confirmation email
             subject = f"Registration Confirmation for {event.title}"
@@ -127,7 +131,7 @@ def event_detail(request, event_id):
                 'email': registration.email,
                 'event_date': event.date,
                 'venue':event.venue,
-                'qr_code': qr_base64,
+                'qr_code': qr_url,
             })
             send_mail(
                 subject,

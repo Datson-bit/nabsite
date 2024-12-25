@@ -86,7 +86,15 @@ class GalleryImage(models.Model):
             # Resize the image
             img.thumbnail((max_width, max_height))
             img.save(self.image.path)
-    
+
+
+class HomeGallery(models.Model):
+   title=  models.CharField( max_length=50)
+   image = models.ImageField()
+
+   def __str__(self):
+       return self.title
+
 class Comment(models.Model):
     blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=70)
