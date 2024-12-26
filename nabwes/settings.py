@@ -87,19 +87,19 @@ WSGI_APPLICATION = 'nabwes.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
+#         'ENGINE': 'dngo.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
 DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME'),  # Replace with your database name
-        'USER': config('DB_USER'),  # Replace with your MySQL username
-        'PASSWORD': config('DB_PASSWORD'),  # Replace with your MySQL password
-        'HOST': 'localhost',  # or the IP of your MySQL server
-        'PORT': '3306',  # Default MySQL port
-    }
+        'USER': config('DB_USER'),  # Replace with your PostgreSQL user
+        'PASSWORD': config('DB_PASSWORD'),  # Replace with your PostgreSQL password
+        'HOST': 'localhost',  # Use 'localhost' or your PostgreSQL server IP
+        'PORT': '5432',  # Default PostgreSQL port
+ }
 }
 
     # 'default': dj_database_url.config(
@@ -113,6 +113,8 @@ DATABASES = {
     #     # host=  config('DB_HOST'),  # Or the IP/hostname of your PostgreSQL server
     #     # port = config('DB_PORT'),       # Default PostgreSQL port
     # )
+ 
+
 
 
 
