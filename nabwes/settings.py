@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['nabwes.com.ng', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['nabwes.com.ng',  '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -66,7 +66,7 @@ ROOT_URLCONF = 'nabwes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],   
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,13 +90,14 @@ WSGI_APPLICATION = 'nabwes.wsgi.application'
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': config('DB_NAME'),  # Replace with your database name
         'USER': config('DB_USER'),  # Replace with your MySQL username
         'PASSWORD': config('DB_PASSWORD'),  # Replace with your MySQL password
-        'HOST': 'nabwes.com.ng',  # or the IP of your MySQL server
+        'HOST': 'localhost',  # or the IP of your MySQL server
         'PORT': '3306',  # Default MySQL port
     }
 }

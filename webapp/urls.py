@@ -1,6 +1,12 @@
 from django.urls import path
+from django.conf.urls import handler404, handler500
+from .views import home, about, contact, gallery,newsletter_subscribe, video, blog, events, service, event_detail, registration_success, causes, donation,  test,members, executives,  blog_view, parliamentary, video, vidtext
 
-from .views import home, about, contact, gallery,newsletter_subscribe, video, blog, events, service, event_detail, registration_success, causes, donation, custom_404_test, test,members, executives,  blog_view, parliamentary, video, vidtext
+
+# Custom views for error handling
+handler404 = 'webapp.views.custom_404'
+handler500 = 'webapp.views.custom_500'
+
 urlpatterns = [
     path('', home, name='home'),
     path('test/', test),
@@ -16,7 +22,7 @@ urlpatterns = [
     path('executives/', executives, name='executives'),
     path('parliamentary/', parliamentary, name='team_spc'),
     path('donation/', donation, name='donation'),
-    path('error_404/', custom_404_test, name='error_404'),
+    # path('error_404/', custom_404_test, name='error_404'),
     path('members/', members, name='members'),
     path('blog/<int:pk>/', blog_view, name="view"),
     path('<int:event_id>/', event_detail, name='event_detail'),
