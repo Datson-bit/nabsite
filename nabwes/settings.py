@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p-g5x86qje#6=%8-vrs_30s-6p7d7a9_^v$d^6y5@u52l(bd!3'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nabwes.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['nabwes.com.ng', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -85,11 +85,22 @@ WSGI_APPLICATION = 'nabwes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME'),  # Replace with your database name
+        'USER': config('DB_USER'),  # Replace with your MySQL username
+        'PASSWORD': config('DB_PASSWORD'),  # Replace with your MySQL password
+        'HOST': 'nabwes.com.ng',  # or the IP of your MySQL server
+        'PORT': '3306',  # Default MySQL port
     }
+}
+
     # 'default': dj_database_url.config(
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3'
@@ -101,7 +112,7 @@ DATABASES = {
     #     # host=  config('DB_HOST'),  # Or the IP/hostname of your PostgreSQL server
     #     # port = config('DB_PORT'),       # Default PostgreSQL port
     # )
-}
+
 
 
 # Password validation
@@ -166,11 +177,11 @@ EXPORT_FORMATS = [XLSX]
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Replace with your email provider's SMTP server
-EMAIL_PORT = 587  # Use 465 for SSL or 587 for TLS
-EMAIL_USE_TLS = True  # Use SSL/TLS as required by your provider
-EMAIL_HOST_USER = 'semescot@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'oamxenatxpguysrv'  # Replace with your email password or app password
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True  
+EMAIL_HOST_USER = config('HOST_EMAIL')  
+EMAIL_HOST_PASSWORD = config('HOST_PASSWORD')
 
 CRISPY_ALLOWED_TEMPLATES_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = "bootstrap5"
