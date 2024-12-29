@@ -40,7 +40,7 @@ jobs:
           server: ${{ secrets.NABWES_FTP_SEVER }}
           username: ${{ secrets.NABWES_FTP_USER }}
           password: ${{ secrets.NABWES_FTP_PASSWORD }}
-          local-dir: /home/essioilo/west
+          local-dir: /home/essioilo/west/
           exclude: |
             .git*
             *.md
