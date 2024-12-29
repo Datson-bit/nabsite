@@ -54,7 +54,6 @@
 #       - name: Deployment Success
 #         run: echo "Deployment to cPanel was successful!"
 
-
 name: Deploy Django Project to cPanel via SSH
 
 on:
@@ -75,12 +74,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Add Known Hosts
+        run: ssh-keyscan -p 1624 -H nabwes.com.ng >> ~/.ssh/known_hosts
+
       - name: Deploy to Server
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          ssh $SSH_USER@$SSH_HOST <<EOF
+          ssh -p 1624 -o StrictHostKeyChecking=no essioilo@nabwes.com.ng <<EOF
+            echo "Connected to server on port 1624"
             cd /home/essioilo/west
             git pull origin main
             source /path/to/your/venv/bin/activate
