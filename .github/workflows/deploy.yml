@@ -37,7 +37,7 @@ jobs:
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.NABWES_FTP_SERVER }}
+          server: ${{ secrets.NABWES_FTP_SEVER }}
           username: ${{ secrets.NABWES_FTP_USER }}
           password: ${{ secrets.NABWES_FTP_PASSWORD }}
           local-dir: /home/essioilo/west
