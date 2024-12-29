@@ -48,6 +48,7 @@ jobs:
             venv/
             __pycache__/
             .github/
+            .env
 
       # Step 5: Notify on success
       - name: Deployment Success
