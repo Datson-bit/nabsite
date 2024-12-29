@@ -86,8 +86,8 @@ jobs:
           ssh -p 1624 -o StrictHostKeyChecking=no essioilo@nabwes.com.ng <<EOF
             echo "Connected to server on port 1624"
             cd /home/essioilo/west
-            git pull origin main
-            source /path/to/your/venv/bin/activate
+            git pull origin master
+            cd  /home/essioilo/virtualenv/west/3.11/bin/activate   
             pip install -r requirements.txt
             python manage.py migrate
             python manage.py collectstatic --noinput
