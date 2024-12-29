@@ -81,15 +81,9 @@
         {%for item in carousel%}
 
         <div class="carousel-item">
-          <img src="{{item.img_url}}" class="img-fluid" alt="Image" />
+          <img src="{{item.img_url.url}}" class="img-fluid" alt="Image" />
           <div class="carousel-caption">
             <div class="p-3" style="max-width: 900px">
-              <h4
-                class="text-white text-uppercase fw-bold mb-4"
-                style="letter-spacing: 3px"
-              >
-                Prioritizing Members welfarism
-              </h4>
               <h1 class="display-1 text-capitalize text-white mb-4">
                 {{item.title}}
               </h1>

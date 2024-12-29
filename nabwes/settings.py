@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nabwes.com.ng',  '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['nabwes.com.ng', 'www.nabwes.com.ng', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -85,10 +85,20 @@ WSGI_APPLICATION = 'nabwes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'deputy',
+        'USER': 'root',
+        'PASSWORD':'',
+        'HOST': 'localhost',  
+        'PORT': '3306',       
     }
 }
 # DATABASES = {

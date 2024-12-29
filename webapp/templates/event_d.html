@@ -1,141 +1,346 @@
-{%extends 'base.html'%} {%block content%}
+{% extends 'base.html' %} {% block content %}
+
 <style>
+  /* Global Styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+  }
+
+
+
+  .event-header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .event-header p {
+    font-size: 1.2rem;
+  }
+
+  /* Countdown Timer Section */
   #countdown {
-      text-align: center;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
+    text-align: center;
+    background-color:rgb(12, 196, 159);
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
+
   #timer {
-      font-size: 2rem;
-      color: #F8B864;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
   }
+
+  .progress-bar {
+    background-color:rgb(2, 43, 27);
+    height: 8px;
+    border-radius: 5px;
+  }
+
+  /* Event Details Section */
+  .event-info {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-info p {
+    font-size: 1.2rem;
+  }
+
+  .display-5 {
+    font-size: 2rem;
+    color:rgb(23, 204, 147);
+  }
+
+  /* Registration Form Styles */
+  .register-form {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .register-form h4 {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color:rgb(45, 80, 74);
+  }
+
+  .form-control {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color:rgb(74, 250, 209);
+    box-shadow: 0 0 10px rgb(0, 167, 128);
+  }
+
+ {% comment %} .btn-primary {
+    border-radius: 10px;
+  }  {% endcomment %}
+
+  .btn-primary:hover {
+    background-color:rgb(89, 216, 216);
+  }
+
+  /* Sponsor Section Styles */
+  .sponsor-logo {
+    max-height: 120px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .sponsor-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(14, 87, 74, 0.2);
+  }
+
+  /* Sponsor Images Section */
+.sponsor-img {
+    width: 150px;
+    height: 150px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 3px solid rgba(0, 176, 162, 0.6); 
+    box-shadow: 0 0 10px rgba(11, 99, 94, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.sponsor-img:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); 
+}
+/* @media Responsiveness Starts */
+@media (max-width: 575.98px) {
+  .sponsor-col {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .sponsor-col {
+      flex: 0 0 33.33%;
+      max-width: 33.33%;
+  }
+}
+
+@media (min-width: 768px) {
+  .sponsor-col {
+      flex: 0 0 16.66%;
+      max-width: 16.66%;
+  }
+}
+/* @media responsiveness ends here */
 </style>
 
 <div class="container my-5">
-  <br><br><br> 
-  <div class="row">
-    <!-- Event Details Section -->
-    <div class="col">
-      <img src="{{event.event_img_url.url}}" class="card-img-top" alt="Blog Image" />
-      <h1 class="display-4">{{ event.name }}</h1>
-      <p class="lead">{{ event.description }}</p>
-      <hr />
-      <p><strong>Date:</strong> {{ event.date|date }}</p>
-      <p><strong>Location:</strong> {{ event.venue }}</p>
-      <p><strong>Capacity:</strong> {{ event.capacity }}</p>
+  <br /><br /><br />
+   {% if messages %}
+            <div class="mt-3">
+                {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
 
-      <div>{{event.body|safe}}</div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+  <!-- Event Header -->
+  <div class="event-header">
+    <h1>{{ event.name }}</h1>
+    <p>{{ event.description }}</p>
+  </div>
+
+  <!-- Event Details Section -->
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <div class="event-info">
+        <img
+          src="{{ event.event_img_url.url }}"
+          class="img-fluid rounded mb-3"
+          alt="Event Image"
+        />
+        <h3>Event Details</h3>
+        <p><strong>Date:</strong> {{ event.date|date:"F j, Y" }}</p>
+        <p><strong>Location:</strong> {{ event.venue }}</p>
+        <p><strong>Capacity:</strong> {{ event.capacity }} attendees</p>
+        <p>{{event.body|safe}}</p>
         <!-- Attendee Count with Animation -->
-        <div class="mt-4">
-          <h3>Registered Attendees</h3>
-          <p class="display-5">
-              <span id="attendeeCount" data-count="{{ event.registrations.count }}">0</span>
-          </p>
-      </div>
+        <h4 class="mt-4">Registered Attendees</h4>
+        <p class="display-5">
+          <span id="attendeeCount" data-count="{{ event.registrations.count }}"
+            >0</span
+          >
+        </p>
       </div>
 
       {% if event.registrations.count >= event.capacity %}
       <div class="alert alert-danger mt-3">This event is fully booked!</div>
       {% endif %}
 
-     <!-- Countdown Timer -->
-    <div id="countdown" class="mt-4">
-      <h3>Time Left:</h3>
-      <p id="timer" class="display-5">Loading...</p>
-  </div>
-</div>
-
-    <!-- Sponsors Section -->
-    <div class="mt-5">
-      <h3>Sponsors</h3>
-      <div class="row">
-          {% for sponsor in sponsors %}
-              <div class="col-md-3 col-sm-6 text-center mb-4">
-                  <a href="{{ sponsor.website }}" target="_blank">
-                      <img src="{{ sponsor.logo.url }}" alt="{{ sponsor.name }}" class="img-fluid" style="max-height: 150px;">
-                  </a>
-                  <p>{{ sponsor.name }}</p>
-              </div>
-          {% empty %}
-              <p>No sponsors for this event yet.</p>
-          {% endfor %}
-      </div>
-
-    <!-- Registration Form Section -->
-    <div class="col-lg-4">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Register Now</h4>
-          <form method="post">
-            {% csrf_token %} 
-            <input type="text" name="full_name" placeholder="Full Name" class="form-control"maxlength="255" required id="id_full_name">
-          <br>  <input type="email" placeholder="Email" class="form-control" name="email" maxlength="254" required id="id_email">
-           <br> <input type="text" name="phone" placeholder="Phone" class="form-control" maxlength="20" id="id_phone">
-          <br>  <button
-              type="submit"
-              class="btn btn-primary w-100"  {%if  event.registrations.count >= event.capacity %} disabled {% endif %}> Register
-            </button>
-          </form>
+      <!-- Countdown Timer -->
+      <div id="countdown" class="mt-4">
+        <h4>Time Left:</h4>
+        <p id="timer" class="display-5">Loading...</p>
+        <div class="progress">
+          <div
+            id="progressBar"
+            class="progress-bar"
+            role="progressbar"
+            style="width: 0%"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
         </div>
       </div>
     </div>
+
+    <!-- Registration Form Section -->
+    <div class="col-md-4">
+      <div class="register-form">
+        <h4>Register Now</h4>
+        <form method="post">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="full_name"
+            placeholder="Full Name"
+            class="form-control"
+            maxlength="255"
+            required
+            id="id_full_name"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            class="form-control"
+            name="email"
+            maxlength="254"
+            required
+            id="id_email"
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            class="form-control"
+            maxlength="20"
+            id="id_phone"
+          />
+          <button
+            type="submit"
+            class="btn btn-primary" style="
+             background-color: rgb(31, 235, 146)
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            width: 100%;
+            transition: all 0.3s ease;
+              "
+              {% if event.registrations.count >= event.capacity %} disabled {% endif %}>Register
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-</div>
+
+  <!-- Sponsors Section -->
+ <!-- Sponsors Section -->
+<!-- Sponsors Section -->
+<div class="container">
+<div class="mt-5">
+  <h3 style="color: rgb(23, 211, 180); text-align: center;">Sponsors</h3>
+  <div class="row">
+      {% for sponsor in sponsors %}
+      <div class="col-4 col-sm-3 col-md-2 text-center mb-4">
+          <a href="{{ sponsor.web_or_social_url }}" target="_blank">
+              <img
+                  src="{{ sponsor.logo.url }}"
+                  alt="{{ sponsor.name }}"
+                  class="sponsor-logo img-fluid rounded-circle border border-light"
+                  style="height: 80px; width: 80px;"
+              />
+          </a>
+          <p class="mt-2">{{ sponsor.name }}</p>
+      </div>
+      {% endfor %}
+  </div>
 </div>
 </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-      const counter = document.getElementById('attendeeCount');
-      if (counter) {
-          const countTo = parseInt(counter.getAttribute('data-count'), 10);
+  document.addEventListener("DOMContentLoaded", function () {
+    const counter = document.getElementById("attendeeCount");
+    if (counter) {
+      const countTo = parseInt(counter.getAttribute("data-count"), 10);
+      let count = 0;
+      const duration = 1000;
+      const intervalTime = 15;
+      const steps = Math.ceil(duration / intervalTime);
+      const increment = countTo / steps;
 
-          let count = 0;
-          const duration = 1000; // Duration of animation in milliseconds
-          const intervalTime = 15; // Update every 15ms
-          const steps = Math.ceil(duration / intervalTime); // Number of steps
-          const increment = countTo / steps;
-
-          const interval = setInterval(() => {
-              count += increment;
-              if (count >= countTo) {
-                  counter.textContent = countTo;
-                  clearInterval(interval);
-              } else {
-                  counter.textContent = Math.floor(count);
-              }
-          }, intervalTime);
-      }
+      const interval = setInterval(() => {
+        count += increment;
+        if (count >= countTo) {
+          counter.textContent = countTo;
+          clearInterval(interval);
+        } else {
+          counter.textContent = Math.floor(count);
+        }
+      }, intervalTime);
+    }
   });
-  document.addEventListener('DOMContentLoaded', function () {
-    const eventDate = new Date("{{ event_date }}").getTime(); // Event date and time in JS
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const eventDate = new Date("{{ event_date }}").getTime();
+    const progressBar = document.getElementById("progressBar");
 
     function updateCountdown() {
-        const now = new Date().getTime();
-        const timeLeft = eventDate - now;
+      const now = new Date().getTime();
+      const timeLeft = eventDate - now;
 
-        if (timeLeft <= 0) {
-            document.getElementById("timer").textContent = "Event Started!";
-            clearInterval(interval);
-            return;
-        }
+      if (timeLeft <= 0) {
+        document.getElementById("timer").textContent = "Event Started!";
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        return;
+      }
 
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      const totalTime = eventDate - now;
+      const progress = ((totalTime - timeLeft) / totalTime) * 100;
+      progressBar.style.width = progress + "%";
 
-        document.getElementById("timer").textContent =
-            `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      document.getElementById(
+        "timer"
+      ).textContent = `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
     }
 
-    // Update countdown every 1 second
     const interval = setInterval(updateCountdown, 1000);
-    updateCountdown(); // Run immediately
-});
+    updateCountdown();
+  });
 </script>
 
-  {%endblock%}
+{% endblock %}

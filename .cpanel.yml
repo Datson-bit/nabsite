@@ -1,9 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/essioilo/public_html/nab
-    - /bin/cp -R . $DEPLOYPATH
-    - source /home/essioilo/virtualenv/public_html/nab/3.11/bin/activate && cd /home/essioilo/public_html/nab
-    - pip install -r requirements.txt
-    - python manage.py collectstatic --noinput
-    - python manage.py migrate

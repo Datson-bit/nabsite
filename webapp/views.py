@@ -14,6 +14,8 @@ import qrcode
 import base64
 from io import BytesIO
 from PIL import Image
+from .utils import generate_unique_pass_code
+
 
 def home(request):
     blog = Blog.objects.all().order_by('-id')[:8]
@@ -85,24 +87,36 @@ def events(request):
 
 
 
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+
 def event_detail(request, event_id):
-    event = get_object_or_404(Event, id= event_id)
+    event = get_object_or_404(Event, id=event_id)
     sponsors = event.sponsors.all()
+
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
+            # Check if user already registered for this event
+            email = form.cleaned_data['email']
+            if Registration.objects.filter(event=event, email=email).exists():
+                # Raise an error for duplicate registration
+                # form.add_error('email', 'You have already registered for this event.')
+                messages.error(request, "You have already registered for this event.")
+                return render(request, 'event_d.html', {'event': event, 'form': form, 'sponsors': sponsors})
+
+            # Save the registration
             registration = form.save(commit=False)
             registration.event = event
-
-            # if event.registrations.count() < event.capacity:
             registration.save()
-            pass_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k= 8))
+
+            # Generate a unique pass code
+            pass_code = generate_unique_pass_code()
             EventPass.objects.create(registration=registration, pass_code=pass_code)
-    
-            #qrcode 
+
+            # QR Code and email sending logic
             qr_data = f"Event: {event.title}\nName: {registration.full_name}\nPass Code: {pass_code}"
 
-             # Create QR code image
             qr = qrcode.QRCode(
                 version=1,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -113,15 +127,12 @@ def event_detail(request, event_id):
             qr.make(fit=True)
             img = qr.make_image(fill_color="black", back_color="white")
 
-            # Convert QR code to base64
             buffer = BytesIO()
             img.save(buffer, format="PNG")
-            # Save the QR code image temporarily to a URL-accessible location
             qr_filename = f"qr_code_{registration.id}.png"
             qr_image = ContentFile(buffer.getvalue(), name=qr_filename)
             qr_url = request.build_absolute_uri(f"/media/{qr_image.name}")
 
-             # Send confirmation email
             subject = f"Registration Confirmation for {event.title}"
             message = f"Thank you for registering for {event.title}! Your pass code is {pass_code}."
             html_message = render_to_string('emails/event_reg_mail.html', {
@@ -130,7 +141,7 @@ def event_detail(request, event_id):
                 'pass_code': pass_code,
                 'email': registration.email,
                 'event_date': event.date,
-                'venue':event.venue,
+                'venue': event.venue,
                 'qr_code': qr_url,
             })
             send_mail(
@@ -141,15 +152,11 @@ def event_detail(request, event_id):
                 fail_silently=False,
                 html_message=html_message,
             )
-            return redirect('registration_success', registration_id= registration.id)
-        
-
-
-            # else:
-            #     return render(request, 'events_full.html', {'event':event})
+            return redirect('registration_success', registration_id=registration.id)
     else:
         form = RegistrationForm()
-        return render(request, 'event_d.html', {'event':event, 'form':form, 'sponsors':sponsors, 'event_date': event.date.strftime('%Y-%m-%dT%H:%M:%S'),})
+    
+    return render(request, 'event_d.html', {'event': event, 'form': form, 'sponsors': sponsors, 'event_date': event.date.strftime('%Y-%m-%dT%H:%M:%S')})
 
 
 def registration_success(request, registration_id):
