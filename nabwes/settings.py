@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'nabwes.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'deputy',
-        'USER': 'root',
-        'PASSWORD':'',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD':config('DB_PASSWORD'),
         'HOST': 'localhost',  
         'PORT': '3306',       
     }
