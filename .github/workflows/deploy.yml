@@ -54,6 +54,7 @@
 #       - name: Deployment Success
 #         run: echo "Deployment to cPanel was successful!"
 
+
 name: Deploy Django Project to cPanel via SSH
 
 on:
