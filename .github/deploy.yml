@@ -1,0 +1,54 @@
+on:
+  push:
+    branches:
+      - master
+
+name: Deploy Django Project to cPanel
+
+jobs:
+  web-deploy:
+    name: Deploy Django Project
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Install Python and dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12.0" # Use the Python version your project requires
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 3: Collect static files
+      - name: Collect Static Files
+        env:
+          DJANGO_SETTINGS_MODULE: nabwes.settings
+        run: |
+          python manage.py collectstatic --noinput
+
+      # Step 4: Sync files to cPanel via FTP
+      - name: Deploy to cPanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.NABWES_FTP_SERVER }}
+          username: ${{ secrets.NABWES_FTP_USER }}
+          password: ${{ secrets.NABWES_FTP_PASSWORD }}
+          local-dir: /home/essioilo/west
+          exclude: |
+            .git*
+            *.md
+            requirements.txt
+            venv/
+            __pycache__/
+            .github/
+
+      # Step 5: Notify on success
+      - name: Deployment Success
+        run: echo "Deployment to cPanel was successful!"
