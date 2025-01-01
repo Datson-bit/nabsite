@@ -187,8 +187,8 @@ def registration_success(request, registration_id):
 
 
 def gallery(request):
-    galleries= Gallery.objects.all()
-    paginator = Paginator(galleries, 4)
+    galleries= GalleryImage.objects.all().order_by('-id')[:]
+    paginator = Paginator(galleries, 12)
     page = request.GET.get('page')
     try:
         paginated_posts = paginator.page(page)

@@ -57,8 +57,7 @@
                 
                 <div class="container my-4">
                     <div class="row gy-4">
-                        {% for gallery in galleries %}
-                        {% for image in gallery.images.all %}             
+                        {% for image in galleries %}
                                        <div class="col-lg-4 col-md-6">
                                 <div class="card gallery-card">
                                     <img src="{{ image.image.url }}" alt="{{ image.caption }}">
@@ -73,7 +72,6 @@
                                 </div>
                             </div>
                         {% endfor %}
-                        {%endfor%}
                     </div>
                 
                                </div>
