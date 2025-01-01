@@ -190,7 +190,7 @@ EXPORT_FORMATS = [XLSX]
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_HOST = 'info@nabwes.com.ng' 
 EMAIL_PORT = 587  
 EMAIL_USE_TLS = True  
 EMAIL_HOST_USER = config('HOST_EMAIL')  
