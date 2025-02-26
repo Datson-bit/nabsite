@@ -27,5 +27,7 @@ urlpatterns = [
     path('user/', include('accounts.urls')),
     path('bursary/', include('bursary.urls'))
     ]
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
