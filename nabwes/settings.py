@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'crispy_bootstrap5',
+    'bursary'
 ]
 
 MIDDLEWARE = [
@@ -91,6 +92,7 @@ WSGI_APPLICATION = 'nabwes.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
@@ -190,7 +192,7 @@ EXPORT_FORMATS = [XLSX]
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'info@nabwes.com.ng' 
+EMAIL_HOST = 'pld111.truehost.cloud' 
 EMAIL_PORT = 587  
 EMAIL_USE_TLS = True  
 EMAIL_HOST_USER = config('HOST_EMAIL')  
@@ -198,3 +200,13 @@ EMAIL_HOST_PASSWORD = config('HOST_PASSWORD')
 
 CRISPY_ALLOWED_TEMPLATES_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
+
+AUTH_USER_MODEL = 'accounts.User'  # Ensure 'accounts' matches your app name

@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
-from .models import Gallery,GalleryImage, Subscriber, Video, Blog, Event, Comment, Registration, EventPass, Executives, Parliamentary, LiveStream
-from .forms import CommentForm, RegistrationForm, SubscriberForm
+from .models import Gallery,GalleryImage, Subscriber, Video, Blog, Event, Comment, Registration, EventPass, Executives, Parliamentary, LiveStream, Payment, Due
+from .forms import CommentForm, RegistrationForm, SubscriberForm, PaymentForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -16,6 +16,9 @@ from io import BytesIO
 from PIL import Image
 from .utils import generate_unique_pass_code
 
+
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 def home(request):
     blog = Blog.objects.all().order_by('-id')[:8]
@@ -45,7 +48,7 @@ def contact(request):
 
 
 def blog(request):
-    blog = Blog.objects.all()
+    blog = Blog.objects.all().order_by('-id')
     paginator = Paginator(blog, 12)
     page = request.GET.get('page')
     try:
@@ -57,12 +60,12 @@ def blog(request):
 
     return render(request, 'blog.html', {'blog':paginated_posts})
 
-def blog_view(request, pk):
+def blog_view(request, slug):
     global comment_form
-    blog = get_object_or_404(Blog, pk=pk)
+    blog = get_object_or_404(Blog, slug=slug)
     # view count
     if not hasattr(blog, 'view_count'):
-        blog = Blog.objects.get(pk=pk)
+        blog = Blog.objects.get(slug=slug)
     
     blog.view_count += 1
     blog.save()
@@ -82,13 +85,10 @@ def blog_view(request, pk):
 
 
 def events(request):
-    events = Event.objects.all()
+    events = Event.objects.all().order_by('-id')
     return render(request, 'events.html', {'events':events})
 
 
-
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
@@ -235,8 +235,6 @@ def parliamentary(request):
     return render(request, 'team_spc.html', {'parliamentary': parliamentary})
 
 
-def donation(request):
-    return render(request, 'donation.html')
 
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
@@ -264,3 +262,37 @@ def subscribe(request):
 def live_stream_view(request):
     live_stream = LiveStream.objects.filter(is_active=True).first()
     return render(request, 'live_stream.html', {'live_stream': live_stream})
+
+
+def donation(request):
+    dues = Due.objects.all()
+    return render(request, 'donation.html', {'due':dues})
+
+def initiate_payment(request, due_id):
+    dues  = get_object_or_404(Due, id=due_id)
+    if request.method == 'POST':
+        form= PaymentForm(request.POST)
+        if form.is_valid():
+            payment= form.save(commit=False)
+            payment.due = dues
+            payment.amount = dues.amount
+            payment.save()
+            context = {
+            "payment": payment,
+             "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY, }
+            return render(request, "payment.html", context)
+        else:
+            # If the form is invalid, re-render with errors
+            return render(request, 'initiate_payment.html', {'payment_form': form, 'due':dues})
+    else:
+        form = PaymentForm()
+        return render(request, "initiate_payment.html", {"form":form, 'due': dues})
+    
+def verify_payment(request, ref):
+    payment = get_object_or_404(Payment, ref=ref)
+    if payment.verify_payment():
+        messages.success(request, "Payment verification successful!")
+        return render(request, "verify.html", {"payment":payment})
+    else:
+        messages.error(request, "Payment verification failed")
+        return redirect("initiate-payment")

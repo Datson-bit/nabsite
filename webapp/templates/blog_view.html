@@ -26,16 +26,18 @@
 
   <!-- Comments Section -->
   <div class="comments-section mb-4">
+    {% comment %}
     <h2>Comments</h2>
     <!-- Comment 1 -->
     {%for comment in comments%}
     <div class="mb-3">
       <div class="d-flex align-items-start">
         <img
-          src="https://via.placeholder.com/50"
+          src="https://www.pngwing.com/en/free-png-mfrjz"
           class="rounded-circle me-3"
           alt="User Avatar"
         />
+
         <div>
           <h6 class="fw-bold mb-0">{{comment.author}}</h6>
           <small class="text-muted"
@@ -45,7 +47,26 @@
         </div>
       </div>
     </div>
-    {%endfor%}
+    {%endfor%} {% endcomment %}
+    <div class="mt-4">
+      <h4>Comments ({{comments.count}})</h4>
+      <ul class="list-group">
+        {% for comment in comments%}
+        <li class="list-group-item">
+          <p class="mb-1">
+            <strong>{{comment.author}}:</strong> {{ comment.text }}
+          </p>
+          <small class="text-muted"
+            >{{ comment.created_date|date:"F d, Y H:i" }}</small
+          >
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">
+          No comments yet. Be the first to comment!
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
 
     <!-- Comment Form -->
     <div class="comment-form">

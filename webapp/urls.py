@@ -1,6 +1,6 @@
 from django.urls import path
 from django.conf.urls import handler404, handler500
-from .views import home, about, contact, gallery,newsletter_subscribe, video, blog, events, service, event_detail, registration_success, causes, donation,  test,members, executives,  blog_view, parliamentary, video, vidtext
+from .views import home, about, contact, gallery,newsletter_subscribe, video, blog, events, service, event_detail, registration_success, causes, donation,  test,members, executives,  blog_view, parliamentary, video, vidtext, initiate_payment, verify_payment
 
 
 # Custom views for error handling
@@ -24,9 +24,10 @@ urlpatterns = [
     path('donation/', donation, name='donation'),
     # path('error_404/', custom_404_test, name='error_404'),
     path('members/', members, name='members'),
-    path('blog/<int:pk>/', blog_view, name="view"),
+    path('blog/<slug:slug>/', blog_view, name="view"),
     path('<int:event_id>/', event_detail, name='event_detail'),
     path('registration-success/<int:registration_id>/', registration_success, name='registration_success'),
     path('subscribe/', newsletter_subscribe, name="newsletter_subscribe"),
-    
+    path('initiate-payment/<int:due_id>/', initiate_payment, name='initiate-payment'),
+    path('verify-payment/<str:ref>/', verify_payment, name="verify-payment")
 ]

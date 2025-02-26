@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Badagry West L.C.D.A Bursary Application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            background-color: #556c5e;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        fieldset.active {
+            display: block;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1.3px solid #ccc;
+            border-radius: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .small-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1.3px solid #ccc;
+            border-radius: 10px;
+            border-color: #ccc;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #ccc;
+            outline: none;
+        }
+
+
+
+        /* Class for smaller text boxes */
+        .small-input {
+            max-width: 200px;
+            display: inline-block;
+        }
+
+        input[type="file"] {
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        input:focus {
+            border-color: solid #38d9a9;
+            box-shadow: 0 0 5px 4px rgba(56, 217, 169, 0.5);
+        }
+
+        .button-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: rgb(0, 128, 77);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: rgb(55, 215, 154);
+        }
+
+        button.prev {
+            background-color: #6c757d;
+        }
+
+        button.prev:hover {
+            background-color: #565e64;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .radio-group label {
+            display: inline-block;
+        }
+
+        #bursaryForm {
+            border-radius: 30px;
+            border: 1px solid #40eca2;
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="bursaryForm" method="POST" action="{% url 'bursary_form' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- INTRUCTION -->
+            <fieldset class="step active">
+                <h2 style="color: #40eca2;">Badagry West LCDA Student Bursary for 2025</h2>
+                <center><label style="color: #40eca2;">Year 2025 Bursary Application Form</label></center>
+                <h4>IMPORTANT NOTES</h4>
+                <ol>
+                    <li>Scanned copies/images of relevant supporting documents must be attached.</li>
+                    <li>All applicants are subject to confirmation by the various institution Authorities.</li>
+                    <li>This bursary applicantion form is <u>strictly</u> for <b>FULL-TIME</b> students only.</li>
+                    <li>Closing date of applications: 31 MAY 2020</li>
+                </ol>
+
+                <h4>SUPPORTING DOCUMENTS REQUIRED</h4>
+                <ul>
+                    <li>Copy of Birth Certificate</li>
+                    <li>Nabwes receipt for current year</li>
+                    <li>Institution Certificate/Admission Letter</li>
+                    <li>Well Laminated School ID Cards. Where your school does not offer ID Card, provide a school
+                        portal Profile page. (Library cards are not allowed)</li>
+                    <li>Latest transcript for the previous year results</li>
+                    <li>Letter of Identification from Oba (Letter from Baale is not acceptable)</li>
+                    <li>Letter of Identification from the Local Council Development Area. (Note: only Badagry West
+                        Certificate of Origin acceptable)</li>
+                    <li>All full-time applicants are to produce Year 2024 Radio & TV licence receipts collected from the
+                        Local Council Development Area.</li>
+                </ul>
+                <div id="agreementForm" action="application.html">
+                    <label>
+                        <input type="checkbox" id="agree" name="agree" required>
+                        I have all required document ready and I am qualified to apply for the application form.
+                    </label>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="next" id="proceedBtn">Start Application</button>
+                </div>
+            </fieldset>
+            <!-- STEP 1: APPLICANT'S PARTICULARS -->
+            <fieldset class="step">
+                <h2>Step 1: Applicant's Particulars</h2>
+                <!-- Photo upload -->
+                <label for="photo">Recent Photograph of Applicant</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required />
+
+                <label for="fullName">Full Name (as per birth)<span style="color:red;">*</span></label>
+                <input type="text" id="fullName" name="fullName" required />
+
+                <label for="bankName">Present Residential Address<span style="color:red;">*</span></label>
+                <input type="text" id="presenAddress" name="Address-sch" required />
+
+                <label for="nric">Place of Birth</label>
+                <input type="text" id="nric" name="nric" required />
+
+                <label for="gender">Marital Status<span style="color:red;">*</span></label>
+                <select id="gender" name="gender" required>
+                    <option value="">-- Select Marital Status --</option>
+                    <option value="Male">Single</option>
+                    <option value="Female">Married</option>
+                </select>
+
+                <!-- State of origin -->
+                <label for="stateOfOrigin">State of Origin<span style="color: red;">*</span> </label>
+                <select id="stateOfOrigin" name="stateOfOrigin" required>
+                    <option value="">-- Select State of Origin --</option>
+                    <option value="Abia">Abia</option>
+                    <option value="Adamawa">Adamawa</option>
+                    <option value="Akwa Ibom">Akwa Ibom</option>
+                    <option value="Anambra">Anambra</option>
+                    <option value="Bauchi">Bauchi</option>
+                    <option value="Bayelsa">Bayelsa</option>
+                    <option value="Benue">Benue</option>
+                    <option value="Borno">Borno</option>
+                    <option value="Cross River">Cross River</option>
+                    <option value="Delta">Delta</option>
+                    <option value="Ebonyi">Ebonyi</option>
+                    <option value="Edo">Edo</option>
+                    <option value="Ekiti">Ekiti</option>
+                    <option value="Enugu">Enugu</option>
+                    <option value="Gombe">Gombe</option>
+                    <option value="Imo">Imo</option>
+                    <option value="Jigawa">Jigawa</option>
+                    <option value="Kaduna">Kaduna</option>
+                    <option value="Kano">Kano</option>
+                    <option value="Katsina">Katsina</option>
+                    <option value="Kebbi">Kebbi</option>
+                    <option value="Kogi">Kogi</option>
+                    <option value="Kwara">Kwara</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Nasarawa">Nasarawa</option>
+                    <option value="Niger">Niger</option>
+                    <option value="Ogun">Ogun</option>
+                    <option value="Ondo">Ondo</option>
+                    <option value="Osun">Osun</option>
+                    <option value="Oyo">Oyo</option>
+                    <option value="Plateau">Plateau</option>
+                    <option value="Rivers">Rivers</option>
+                    <option value="Sokoto">Sokoto</option>
+                    <option value="Taraba">Taraba</option>
+                    <option value="Yobe">Yobe</option>
+                    <option value="Zamfara">Zamfara</option>
+                    <option value="FCT">Federal Capital Territory</option>
+                </select>
+                <!-- State of origin end  -->
+
+                <label for="race">Local Govt. of Origin<span style="color:red;">*</span></label>
+                <input type="text" id="Lga" name="origin-lga" required />
+
+                <!-- Ward dropdown (as per requirements) -->
+                <label for="ward">Ward<span style="color:red;">*</span></label>
+                <select id="ward" name="ward" required>
+                    <option value="">-- Select Ward --</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                </select>
+
+                <label for="homeAddress">Permanent Home Address<span style="color:red;">*</span></label>
+                <input type="text" id="homeAddress" name="homeAddress" required />
+
+                <label for="mailingAddress">Village/Family Compound Name<span style="color:red;">*</span></label>
+                <input type="text" id="mailingAddress" name="mailingAddress" required />
+
+                <!-- Changed telephone inputs to type="tel" with a digit-only pattern -->
+                <label for="resTel">Whatsapp Telephone No.<span style="color:red;">*</span></label>
+                <input type="tel" id="resTel" name="resTel" class="small-input" pattern="[0-9]{10,}"
+                    title="Enter a valid phone number (digits only, at least 10 digits)" required />
+
+                <label for="handphone">Telephone No<span style="color:red;">*</span></label>
+                <input type="tel" id="handphone" name="handphone" class="small-input" pattern="[0-9]{10,}"
+                    title="Enter a valid phone number (digits only, at least 10 digits)" required />
+
+                <label for="email">E-mail Address<span style="color:red;">*</span></label>
+                <input type="email" id="email" name="email" placeholder="example@example.com" required required
+                    pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+                    title="Please enter a valid email address." />
+
+                <label for="dob">Date of Birth<span style="color:red;">*</span></label>
+                <input type="date" id="dob" name="dob" required />
+
+                <label for="countryBirth">Country of Birth<span style="color:red;">*</span></label>
+                <input type="text" id="countryBirth" name="countryBirth" required />
+
+                <div class="button-group">
+                    <button type="button" class="next">Next</button>
+                </div>
+            </fieldset>
+
+            <!-- STEP 2: COURSE & INSTITUTION DETAILS -->
+            <fieldset class="step">
+                <h2>Step 2: Course & Institution Details</h2>
+                <label>Institution Type<span style="color:red;">*</span></label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="appType" value="University/Degree" required /> University/Degree
+                    </label>
+                    <label>
+                        <input type="radio" name="appType" value="Polytechnic/Diploma" required /> Polytechnic/Diploma
+                    </label>
+                    <label>
+                        <input type="radio" name="appType" value="College of Education/NCE" required /> College of
+                        Education/NCE
+                    </label>
+                </div>
+
+                <label for="courseName">Name of Degree Course applied for/currently attending<span
+                        style="color:red;">*</span></label>
+                <input type="text" id="courseName" name="courseName" required />
+
+                <label for="institution">Name of Institution<span style="color:red;">*</span></label>
+                <input type="text" id="institution" name="institution" required />
+
+                <label for="courseDuration">Duration of Course<span style="color:red;">*</span></label>
+                <input type="text" id="courseDuration" name="courseDuration" placeholder="e.g., 4 years" required />
+
+                <label for="instAddress">Address of Institution<span style="color:red;">*</span></label>
+                <input type="text" id="instAddress" name="instAddress" required />
+
+                <label for="portal_link">Link to Institution's student portal<span style="color:red;">*</span></label>
+                <input type="text" id="portal_link" name="portal_link" required />
+                <i style="color: red; font-size: 0.9rem;">Don't worry, your details are safe. We are only requesting
+                    this to help us validate your studentship.</i>
+                <label for="matric_no">Matric No/Student ID<span style="color:red;">*</span></label>
+                <input type="text" id="matric_no" name="matric_no" required />
+                <label for="portal_username">Portal Username<span style="color:red;">*</span></label>
+                <input type="text" id="portal_username" name="portal_username" required />
+                <label for="portal_password">Portal Password<span style="color:red;">*</span></label>
+                <input type="text" id="portal_password" name="portal_password" required />
+
+                <label for="commencement">Course Commencement Date (mm/yyyy)<span style="color:red;">*</span></label>
+                <input type="date" id="commencement" name="commencement" required />
+
+                <label for="completion">Course Completion Date (mm/yyyy)<span style="color:red;">*</span></label>
+                <input type="date" id="completion" name="completion" required />
+
+                <label for="councilor">Name of Councilor (Reference)<span style="color:red;">*</span></label>
+                <input type="text" id="councilor" name="councilor" required />
+                <div class="education-section">
+                    <div id="educationContainer">
+                        <div class="education-entry">
+                            <h4>Education Qualification</h4>
+                            <label>
+                                <span style="color:red;">*</span> Qualification
+                                <input type="text" name="qualification[]" required>
+                            </label>
+                            <label>
+                                <span style="color:red;">*</span> Institution Name
+                                <input type="text" name="institution[]" required>
+                            </label>
+                            <label>
+                                <span style="color:red;">*</span> Start Year
+                                <input type="number" name="startYear[]" min="1900" max="2100" placeholder="YYYY"
+                                    required>
+                            </label>
+                            <label>
+                                <span style="color:red;">*</span> End Year
+                                <input type="number" name="endYear[]" min="1900" max="2100" placeholder="YYYY" required>
+                            </label>
+                            <hr>
+                        </div>
+                    </div>
+                    <button type="button" id="addQualification">Add Another Qualification</button>
+
+                    <div class="button-group">
+                        <button type="button" class="prev">Previous</button>
+                        <button type="button" class="next">Next</button>
+                    </div>
+            </fieldset>
+
+            <!-- STEP 3: FATHER'S PARTICULARS -->
+            <fieldset class="step">
+                <h2>Step 3: Father's Particulars</h2>
+                <label for="fatherFullName">Full Name<span style="color:red;">*</span></label>
+                <input type="text" id="fatherFullName" name="fatherFullName" required />
+
+                <label for="fatherAddress">Address (if different)</label>
+                <input type="text" id="fatherAddress" name="fatherAddress" />
+
+                <label for="fatherHomeTel">Telephone No.<span style="color:red;">*</span></label>
+                <input type="tel" id="fatherHomeTel" name="fatherHomeTel" class="small-input" pattern="[0-9]{10,}"
+                    title="Enter digits only, at least 10 digits" required />
+
+                <label for="fatherOccupation">Occupation<span style="color:red;">*</span></label>
+                <input type="text" id="fatherOccupation" name="fatherOccupation" class="small-input" required />
+
+                <label for="fatherTown">Town<span style="color:red;">*</span></label>
+                <input type="text" id="fatherTown" name="fatherTown" class="small-input" required />
+
+                <div class="button-group">
+                    <button type="button" class="prev">Previous</button>
+                    <button type="button" class="next">Next</button>
+                </div>
+            </fieldset>
+
+            <!-- STEP 4: MOTHER'S PARTICULARS -->
+            <fieldset class="step">
+                <h2>Step 4: Mother's Particulars</h2>
+                <label for="motherFullName">Full Name<span style="color:red;">*</span></label>
+                <input type="text" id="motherFullName" name="motherFullName" required />
+
+                <label for="motherAddress">Address (if different):</label>
+                <input type="text" id="motherAddress" name="motherAddress" />
+
+                <label for="motherHomeTel">Home Telephone No.<span style="color:red;">*</span></label>
+                <input type="tel" id="motherHomeTel" name="motherHomeTel" class="small-input" pattern="[0-9]{10,}"
+                    title="Enter digits only, at least 10 digits" required />
+
+                <label for="motherOccupation">Occupation<span style="color:red;">*</span></label>
+                <input type="text" id="motherOccupation" name="motherOccupation" class="small-input" required />
+
+                <label for="motherTown">Town<span style="color:red;">*</span></label>
+                <input type="text" id="motherTown" name="motherTown" class="small-input" required />
+
+                <div class="button-group">
+                    <button type="button" class="prev">Previous</button>
+                    <button type="button" class="next">Next</button>
+                </div>
+            </fieldset>
+
+            <!-- STEP 5: ADDITIONAL INFORMATION & DECLARATION -->
+            <fieldset class="step">
+                <h2>Step 5: Additional Information & Declaration</h2>
+
+                <!-- Financial Assistance Info -->
+                <label>Is the applicant receiving financial assistance, bursary or scholarship from any
+                    organization?<span style="color:red;">*</span></label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="financialAssistance" value="No" required /> No
+                    </label>
+                    <label>
+                        <input type="radio" name="financialAssistance" value="Yes" required /> Yes
+                    </label>
+                </div>
+
+                <label for="additionalInfo">Additional Information to support your application</label>
+                <textarea id="additionalInfo" name="additionalInfo" rows="4"></textarea>
+
+                <!-- Alwehdah Membership -->
+                <label>Are you a member of Nabwes?<span style="color:red;">*</span></label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="alwehdahMember" value="No" required /> No
+                    </label>
+                    <label>
+                        <input type="radio" name="alwehdahMember" value="Yes" required /> Yes
+                    </label>
+                </div>
+
+                <label for="alwehdahActivities">Describe Nabwes to your best knowledge and one way you have benefited
+                    from the association:</label>
+                <textarea id="alwehdahActivities" name="alwehdahActivities" rows="4"></textarea>
+
+
+                <!-- Supporting Documents -->
+                <h3 for="supportDocs">Upload ALL required supporting documents</h3>
+                <small>Max file size per upload = 100KB (max. upload per application = 100MB)</small>
+
+                <div class="document-uploads">
+
+                    <label for="idCard"><span style="color:red;">*</span> Upload ID Card:</label>
+                    <input type="file" id="idCard" name="idCard" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+
+                    <label for="admissionLetter"><span style="color:red;">*</span> Upload Admission Letter:</label>
+                    <input type="file" id="admissionLetter" name="admissionLetter" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+
+                    <label for="academicResult"><span style="color:red;">*</span> Upload Academic Result:</label>
+                    <input type="file" id="academicResult" name="academicResult" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+
+                    <label for="nabwesReceipt"><span style="color:red;">*</span> Upload Nabwes Receipt:</label>
+                    <input type="file" id="nabwesReceipt" name="nabwesReceipt" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+
+                    <label for="radioTvLicense"><span style="color:red;">*</span> Upload Radio/TV License:</label>
+                    <input type="file" id="radioTvLicense" name="radioTvLicense" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+
+                    <label for="letterOfOba"><span style="color:red;">*</span> Upload Letter of Oba:</label>
+                    <input type="file" id="letterOfOba" name="letterOfOba" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+
+                    <label for="originCertificate"><span style="color:red;">*</span> Upload Origin Certificate from
+                        LCDA:</label>
+                    <input type="file" id="originCertificate" name="originCertificate" accept=".jpg, .jpeg, .png, .pdf"
+                        onchange="checkFileSize(this)" required>
+                </div>
+
+                <!-- Declaration -->
+                <p style="margin-top: 20px; font-size: 0.9em;">I declare that all information given herein and hereto is
+                    true and correct to the best of my knowledge. I understand that any fraudulent, misrepresentation or
+                    omission of facts/information will be sufficient cause for this application to be automatically
+                    rejected. I consent that my studentship may be verified from my institution Authorities and I will
+                    bear the consequences if any fraudulent or misrepresentation is discovered. I will abide by the
+                    decision of the bursary committee.</p>
+
+
+                <label><input type="checkbox" name="declaration" required /> I agree to the declaration above.</label>
+                <div class="button-group">
+                    <button type="button" class="prev">Previous</button>
+                    <button type="submit">Submit Application</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const steps = document.querySelectorAll(".step");
+            let currentStep = 0;
+
+            // Function to show the desired step
+            function showStep(stepIndex) {
+                steps.forEach((fieldset, index) => {
+                    fieldset.classList.toggle("active", index === stepIndex);
+                });
+            }
+
+            // Next button handler with manual validation for required fields in the current stage
+            document.querySelectorAll(".next").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const currentFieldset = steps[currentStep];
+                    const requiredElements = currentFieldset.querySelectorAll("input[required], select[required], textarea[required]");
+                    let valid = true;
+                    // u may comment out this place if u want to navigate through the whole form
+             
+                    // end the comment here.............
+                    if (valid && currentStep < steps.length - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            // Previous button handler
+            document.querySelectorAll(".prev").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            // Final submission handler
+            document.getElementById("bursaryForm").addEventListener("submit", (e) => {
+                alert("Application submitted successfully!");
+                // Uncomment the next line to prevent actual form submission during testing:
+                // e.preventDefault();
+            });
+
+            // Enable the proceed button after the agreement checkbox is checked
+            const checkbox = document.getElementById("agree");
+            const proceedBtn = document.getElementById("proceedBtn");
+            proceedBtn.disabled = true;
+            checkbox.addEventListener("change", function () {
+                proceedBtn.disabled = !this.checked;
+            });
+        });
+
+        // Handler for adding additional education qualification entries
+        document.getElementById('addQualification').addEventListener('click', function () {
+            // Clone the first education entry
+            var container = document.getElementById('educationContainer');
+            var entry = container.querySelector('.education-entry');
+            var newEntry = entry.cloneNode(true);
+
+            // Reset the input values in the new entry
+            var inputs = newEntry.querySelectorAll('input');
+            inputs.forEach(input => input.value = '');
+
+            container.appendChild(newEntry);
+        });
+
+        // File size check function (100KB max)
+        function checkFileSize(input) {
+            if (input.files && input.files[0]) {
+                const fileSize = input.files[0].size; // size in bytes
+                const maxSize = 100 * 1024; // 100KB
+
+                if (fileSize > maxSize) {
+                    alert("File is too large. Maximum file size is 100KB.");
+                    input.value = ""; // Reset the input so the user can try again
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

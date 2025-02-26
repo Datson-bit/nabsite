@@ -2,6 +2,11 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from taggit.managers import TaggableManager
 from PIL import Image
+from django.conf import settings
+import secrets
+from .paystack import PayStack
+from django.utils.text import slugify
+
 
 class Blog(models.Model):
     img_url =  models.ImageField(upload_to="images/")
@@ -9,10 +14,17 @@ class Blog(models.Model):
     authour = models.CharField(max_length=500)
     desc = models.CharField(max_length=500, default="")
     authour_img = models.ImageField(default="", )
+    slug = models.SlugField( blank=True, null=True)
     # tags = TaggableManager()
     body = RichTextField(blank=True, null=True)
     date = models.DateField()
     view_count = models.PositiveIntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title) # Automatically generate slug from title
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.title
@@ -142,3 +154,43 @@ class LiveStream(models.Model):
     
     def __str__(self):
         return self.title
+    
+class Due(models.Model):
+    name = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    
+
+class Payment(models.Model):
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
+    email = models.EmailField(max_length= 50)
+    due = models.ForeignKey(Due, on_delete=models.CASCADE, default="")
+    # amount = models.DecimalField(max_digits=10, decimal_places=2)
+    ref= models.CharField(max_length=100, unique=True, blank= True)
+    verified = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment by {self.name} - Ref {self.ref}"
+    
+    def save(self, *args, **kwargs):
+        if not self.ref:
+            self.ref = secrets.token_urlsafe(20)
+        super().save(*args, **kwargs)
+
+    def verify_payment(self):
+        paystack = PayStack()
+        status, result = paystack.verify_payment(self.ref, self.due.amount)
+
+        if status:
+            self.verified = True
+            self.save()
+        return self.verified
+    
+
+
+

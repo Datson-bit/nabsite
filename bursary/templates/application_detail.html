@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details - Bursary System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Bursary System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger text-white" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2 class="mb-4">Application Details</h2>
+        
+        <!-- Applicant Information -->
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Applicant Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <img src="{{ application.photo.url }}" alt="Applicant Photo" class="img-fluid rounded" onerror="this.src='https://via.placeholder.com/200';">
+                    </div>
+                    <div class="col-md-8">
+                      <p><strong>Full Name:</strong> {{ application.full_name }}</p>
+                      <p><strong>Email:</strong> {{ application.email }}</p>
+                      <p><strong>Address:</strong> {{ application.address }}</p>
+                      <p><strong>Place of Birth:</strong> {{ application.place_of_birth }}</p>
+                      <p><strong>Marital Status:</strong> {{ application.marital_status }}</p>
+                      <p><strong>State of Origin:</strong> {{ application.state_of_origin }}</p>
+                      <p><strong>Local Govt. of Origin:</strong> {{ application.local_govt_origin }}</p>
+                      <p><strong>Ward:</strong> {{ application.ward }}</p>
+                      <p><strong>Permanent Address:</strong> {{ application.permanent_address }}</p>
+                      <p><strong>Village/Compound:</strong> {{ application.village }}</p>
+                      {% comment %} <p><strong>Whatsapp Telephone:</strong> {{ application.whatsapp_tel }}</p> {% endcomment %}
+                      <p><strong>Telephone:</strong> {{ application.telephone }}  (Whatsapp  {{ application.whatsapp_tel }})</p>
+                      <p><strong>Date of Birth:</strong> {{ application.dob }}</p>
+                      <p><strong>Country of Birth:</strong> {{ application.country_birth }}</p>
+                            <span class="badge {% if application.status == 'qualified' %}bg-success{% elif application.status == 'disqualified' %}bg-danger{% else %}bg-warning{% endif %}">
+                                {{ application.get_status_display }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course & Institution Details -->
+        <div class="card shadow-lg mt-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Course & Institution Details</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>Institution Type:</strong> {{ application.institution_type }}</p>
+              <p><strong>Course Name:</strong> {{ application.course_name }}</p>
+              <p><strong>Institution:</strong> {{ application.institution }}</p>
+              <p><strong>Course Duration:</strong> {{ application.course_duration }}</p>
+              <p><strong>Institution Address:</strong> {{ application.inst_address }}</p>
+              <p><strong>Portal Link:</strong> <a href="{{ application.portal_link }}" target="_blank">{{ application.portal_link }}</a></p>
+              <p><strong>Matric No/Student ID:</strong> {{ application.matric_no }}</p>
+              <p><strong>Portal Username:</strong> {{ application.portal_username }}</p>
+              <p><strong>Course Commencement:</strong> {{ application.commencement }}</p>
+              <p><strong>Course Completion:</strong> {{ application.completion }}</p>
+              <p><strong>Councilor:</strong> {{ application.councilor }}</p>
+            </div>
+        </div>
+        
+        {% comment %} <!-- Supporting Documents -->
+        <div class="card mt-4 shadow-lg">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Supporting Documents</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for doc, name in application.get_documents.items %}
+                        <li class="list-group-item">
+                            <strong>{{ name }}:</strong>
+                            {% if doc %}
+                                <a href="{{ doc.url }}" class="btn btn-sm btn-primary" target="_blank">View</a>
+                            {% else %}
+                                <span class="text-muted">Not uploaded</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Approval Status -->
+        <div class="mt-4">
+            <h4>Approval Status</h4>
+            <ul class="list-group">
+                {% for role, status in application.get_approval_status.items %}
+                    <li class="list-group-item">
+                        <strong>{{ role }}:</strong> {% if status %}✅ Approved{% else %}❌ Pending{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Final Decision -->
+        <div class="mt-3">
+            <h4>Final Decision</h4>
+            <p class="fw-bold">
+                {% if application.status == 'qualified' %} ✅ <span class="text-success">Qualified</span>
+                {% elif application.status == 'disqualified' %} ❌ <span class="text-danger">Disqualified</span>
+                {% else %} ⏳ <span class="text-warning">Pending Chairman's Decision</span>
+                {% endif %}
+            </p>
+        </div>
+        
+        <!-- Approval Buttons -->
+        {% if request.user.role in "ICT HOD COUNCILOR" %}
+            <form method="post" action="{% url 'approve_application' application.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Approve</button>
+            </form>
+            <form method="post" action="{% url 'disapprove_application' application.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Disapprove</button>
+            </form>
+        {% endif %}
+        
+        <!-- Comments Section -->
+        <hr>
+        <h4>Comments</h4>
+        <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <strong>{{ comment.author.username }}</strong>: {{ comment.comment }}
+                    <span class="text-muted float-end">{{ comment.created_at }}</span>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No comments yet.</li>
+            {% endfor %}
+        </ul>
+        
+        <!-- Add Comment Form -->
+        <h5 class="mt-4">Add a Comment</h5>
+        <form method="post">
+            {% csrf_token %}
+            <textarea class="form-control" name="comment" rows="3" required></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    </div> {% endcomment %}
+  <!-- Supporting Documents -->
+      <div class="card mt-4 shadow-lg">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">Supporting Documents</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Admission Letter:</strong>
+              {% if application.admission_letter %}
+              <a
+                href="{{ application.admission_letter.url }}"
+                class="btn btn-sm btn-primary"
+                target="_blank"
+                >View</a
+              >
+              {% else %}
+              <span class="text-muted">Not uploaded</span>
+              {% endif %}
+            </li>
+            <li class="list-group-item">
+              <strong>Academic Result:</strong>
+              {% if application.academic_result %}
+              <a
+                href="{{ application.academic_result.url }}"
+                class="btn btn-sm btn-primary"
+                target="_blank"
+                >View</a
+              >
+              {% else %}
+              <span class="text-muted">Not uploaded</span>
+              {% endif %}
+            </li>
+            <li class="list-group-item">
+              <strong>ID Card:</strong>
+              {% if application.id_card %}
+              <a
+                href="{{ application.id_card.url }}"
+                class="btn btn-sm btn-primary"
+                target="_blank"
+                >View</a
+              > 
+              {% else %}
+              <span class="text-muted">Not uploaded</span>
+              {% endif %}
+            </li>
+              <li class="list-group-item">
+              <strong>Certificate of Origin</strong>
+              {% if application.origin_certificate%}
+              <a
+                href="{{ application..orign_certificate.url }}"
+                class="btn btn-sm btn-primary"
+                target="_blank"
+                >View</a
+              > 
+              {% else %}
+              <span class="text-muted">Not uploaded</span>
+              {% endif %}
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+
+         <!-- Role-Based Approval Status -->
+         <h4>Approval Status</h4>
+         <ul class="list-group">
+             <li class="list-group-item">
+                 <strong>ICT:</strong> 
+                 {% if application.status == 'ict_cleared' or application.status in 'councilor_reviewed hod_approved qualified' %}
+                     ✅ Approved
+                 {% else %}
+                     ❌ Pending
+                 {% endif %}
+             </li>
+         
+             <li class="list-group-item">
+                 <strong>Councilor:</strong> 
+                 {% if application.status == 'councilor_reviewed' or application.status in 'hod_approved qualified' %}
+                     ✅ Approved
+                 {% else %}
+                     ❌ Pending
+                 {% endif %}
+             </li>
+         
+             <li class="list-group-item">
+                 <strong>HOD:</strong> 
+                 {% if application.status == 'hod_approved' or application.status == 'qualified' %}
+                     ✅ Approved
+                 {% else %}
+                     ❌ Pending
+                 {% endif %}
+             </li>
+         </ul>
+         <br>
+         <!-- Chairman's Final Decision -->
+         <h4>Final Decision</h4>
+         <p class="fw-bold">
+             {% if application.status == 'qualified' %}
+                 ✅ <span class="text-success">Qualified</span>
+             {% elif application.status == 'disqualified' %}
+                 ❌ <span class="text-danger">Disqualified</span>
+             {% else %}
+                 ⏳ <span class="text-warning">Pending Chairman's Decision</span>
+             {% endif %}
+         </p>
+         <br>
+ 
+         <!-- Approval Buttons -->
+         {% if request.user.role in "ICT HOD COUNCILOR " %}
+             <form method="post" action="{% url 'approve_application' application.id %}" style="display: inline;">
+                 {% csrf_token %}
+                 <button type="submit" class="btn btn-success">Approve</button>
+             </form>
+             <form method="post" action="{% url 'disapprove_application' application.id %}" style="display: inline;">
+                 {% csrf_token %}
+                 <button type="submit" class="btn btn-danger">Disapprove</button>
+             </form>
+         {% endif %}
+         {% if request.user.role == 'CHAIRMAN' and application.status == 'hod_approved' %}
+         <form method="POST" action="{% url 'approve_application' application.id %}">
+             {% csrf_token %}
+             
+             <div class="form-group">
+                 <label for="final_remark"><strong>Final Decision:</strong></label>
+                 <select name="final_remark" id="final_remark" class="form-control" required>
+                     <option value="">-- Select Final Remark --</option>
+                     <option value="qualified">Qualified</option>
+                     <option value="disqualified">Disqualified</option>
+                 </select>
+             </div>
+     
+             <button type="submit" class="btn btn-success mt-2">Submit Final Decision</button>
+         </form>
+     {% endif %}
+     
+ 
+         <hr>
+ 
+         <!-- Comments Section -->
+         <h4>Comments</h4>
+         <ul class="list-group">
+             {% for comment in comments %}
+                 <li class="list-group-item">
+                     <strong>{{ comment.author.role }} </strong>: {{ comment.comment }}
+                     <span class="text-muted float-end">{{ comment.created_at }}</span>
+                 </li>
+             {% empty %}
+                 <li class="list-group-item text-muted">No comments yet.</li>
+             {% endfor %}
+         </ul>
+ 
+         <!-- Add Comment Form -->
+         <h5 class="mt-4">Add a Comment</h5>
+         <form method="post">
+             {% csrf_token %}
+             <div class="form-group">
+                <label for="comment">Add Comment:</label>
+                <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+              </div>         <br>    <button type="submit" class="btn btn-primary">Submit</button><br>
+         </form>
+     </div>
+ 
+     
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -48,7 +48,7 @@
                             <div class="text-dark border p-4 ">
                                 <h4 class="mb-4">{{item.title}}</h4>
                                 <p class="mb-4">{{item.desc}}</p>
-                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="{%url 'view' item.pk%}">Read More</a>
+                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="{%url 'view' slug=item.slug%}">Read More</a>
                             </div>
                         </div>
                     </div>

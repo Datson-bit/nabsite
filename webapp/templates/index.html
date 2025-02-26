@@ -36,17 +36,19 @@
   <div class="container-fluid carousel-header vh-100 px-0">
     <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
       <ol class="carousel-indicators">
+        {%for item in carousel%}
         <li
           data-bs-target="#carouselId"
-          data-bs-slide-to="0"
-          class="active"
+          data-bs-slide-to="{{forloop.counter0}}"
+          class="{%if forloop.first%}active {%endif%}"
         ></li>
-        <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
+        {% comment %} <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
         <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
-        <li data-bs-target="#carouselId" data-bs-slide-to="3"></li>
+        <li data-bs-target="#carouselId" data-bs-slide-to="3"></li> {% endcomment %}
+        {%endfor%}
       </ol>
       <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
+        {% comment %} <div class="carousel-item active">
           <img
             src="{% static 'img/carousel-1.jpg' %}"
             class="img-fluid"
@@ -77,10 +79,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
         {%for item in carousel%}
 
-        <div class="carousel-item">
+        <div class="carousel-item {%if forloop.first%} active {%endif%}">
           <img src="{{item.img_url.url}}" class="img-fluid" alt="Image" />
           <div class="carousel-caption">
             <div class="p-3" style="max-width: 900px">
@@ -338,7 +340,7 @@
               <p class="mb-4">{{blog.desc}}</p>
               <a
                 class="btn-hover-bg btn btn-primary text-white py-2 px-4"
-                href="{%url 'view' blog.pk%}"
+                href="{%url 'view' slug=blog.slug%}"
                 >Read More</a
               >
             </div>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, Registration,Subscriber
+from .models import Comment, Registration,Subscriber, Payment
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -19,5 +19,20 @@ class SubscriberForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter your email',
+            })
+        }
+
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        fields = ['name', 'email']
+        widgets={
+            'name':forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+
+           
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
             })
         }
