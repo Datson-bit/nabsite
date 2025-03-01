@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Confirmation - Nabwes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+    }
+    .email-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 60%;
+      margin: auto;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #00b98e;
+    }
+    .header img {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #00b98e;
+      margin-top: 10px;
+    }
+    p {
+      font-size: 14px;
+      color: #333;
+    }
+    .button {
+      background-color:#00b98e;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .footer {
+      font-size: 12px;
+      color: #777;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- NABWES HEADER -->
+    <div class="header">
+      <img src="https://res.cloudinary.com/djy17epwn/image/upload/v1735047675/nabwes_g07j8x.png" alt="Nabwes Logo">
+      <h2>Payment Confirmation</h2>
+    </div>
+
+    <p>Dear {{ payment.name }},</p>
+    <p>
+      Your payment of <strong>₦{{ payment.due.amount }}</strong> was
+      successfully processed.
+    </p>
+    <p><strong>Reference ID:</strong> {{ payment.ref }}</p>
+    <p><strong>Date:</strong> {{ payment.timestamp }}</p>
+    <p>A copy of your receipt is attached to this email.</p>
+
+    <p>Click below to view your receipt:</p>
+    <a href="https://nabwes.com.ng/payment/receipt/{{ payment.ref }}" class="button">View Receipt</a>
+
+    <!-- NABWES INFO -->
+    <p class="footer">
+      Nabwes (National Association of Badagry West Students) | Empowering the future of Badagry West.<br>
+      Visit us at <a href="https://nabwes.com.ng">www.nabwes.com.ng</a><br>
+      Contact: info@nabwes.com.ng
+    </p>
+  </div>
+</body>
+</html>

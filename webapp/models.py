@@ -6,6 +6,7 @@ from django.conf import settings
 import secrets
 from .paystack import PayStack
 from django.utils.text import slugify
+import uuid
 
 
 class Blog(models.Model):
@@ -168,11 +169,14 @@ class Payment(models.Model):
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     email = models.EmailField(max_length= 50)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     due = models.ForeignKey(Due, on_delete=models.CASCADE, default="")
     # amount = models.DecimalField(max_digits=10, decimal_places=2)
     ref= models.CharField(max_length=100, unique=True, blank= True)
     verified = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
+    receipt_tracking_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
 
     def __str__(self):
         return f"Payment by {self.name} - Ref {self.ref}"

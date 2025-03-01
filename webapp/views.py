@@ -15,7 +15,12 @@ import base64
 from io import BytesIO
 from PIL import Image
 from .utils import generate_unique_pass_code
+import uuid
+import requests
+import pdfkit
 
+from django.core.mail import EmailMessage
+from django.utils.html import strip_tags
 
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
@@ -265,34 +270,80 @@ def live_stream_view(request):
 
 
 def donation(request):
-    dues = Due.objects.all()
     return render(request, 'donation.html', {'due':dues})
 
+def dues(request):
+    dues = Due.objects.all().order_by('-id')
+    return render(request, 'dues.html', {'dues':dues})
+
+def generate_reference():
+    """Generate a unique reference ID."""
+    return str(uuid.uuid4()).replace("-", "").upper()[:12]
+
 def initiate_payment(request, due_id):
-    dues  = get_object_or_404(Due, id=due_id)
-    if request.method == 'POST':
-        form= PaymentForm(request.POST)
+    """Handles payment initiation."""
+    dues = get_object_or_404(Due, id=due_id)
+
+    if request.method == "POST":
+        form = PaymentForm(request.POST)
         if form.is_valid():
-            payment= form.save(commit=False)
+            payment = form.save(commit=False)
             payment.due = dues
-            payment.amount = dues.amount
+            payment.amount = dues.amount  # Ensure the correct amount is used
+            payment.payment_reference = generate_reference()  # Generate unique reference
             payment.save()
+
             context = {
-            "payment": payment,
-             "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY, }
+                "payment": payment,
+                "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
+            }
             return render(request, "payment.html", context)
         else:
             # If the form is invalid, re-render with errors
-            return render(request, 'initiate_payment.html', {'payment_form': form, 'due':dues})
+            return render(request, "initiate_payment.html", {"form": form, "due": dues})
+
     else:
         form = PaymentForm()
-        return render(request, "initiate_payment.html", {"form":form, 'due': dues})
+        return render(request, "initiate_payment.html", {"form": form, "due": dues})
+
     
+
 def verify_payment(request, ref):
+    """Handles Paystack payment verification and sends a receipt via email."""
     payment = get_object_or_404(Payment, ref=ref)
-    if payment.verify_payment():
+
+    # Paystack API request
+    paystack_url = f"https://api.paystack.co/transaction/verify/{ref}"
+    headers = {"Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"}
+    response = requests.get(paystack_url, headers=headers)
+    res_data = response.json()
+
+    if res_data.get("status") and res_data["data"]["status"] == "success":
+        # Payment verified
         messages.success(request, "Payment verification successful!")
-        return render(request, "verify.html", {"payment":payment})
+
+        # Generate PDF receipt
+        pdf_content = render_to_string("payment_receipt.html", {"payment": payment})
+        pdf_file = pdfkit.from_string(pdf_content, False, configuration=settings.PDFKIT_CONFIG)
+
+        # Create email
+        subject = "Payment Receipt - Nabwes"
+        email_context = {"payment": payment}
+        html_message = render_to_string("payment_email_template.html", email_context)
+        plain_message = strip_tags(html_message)
+
+        email = EmailMessage(subject, plain_message, settings.DEFAULT_FROM_EMAIL, [payment.email])
+        email.attach("payment_receipt.pdf", pdf_file, "application/pdf")
+        email.content_subtype = "html"
+        email.send()
+
+        return render(request, "verify.html", {"payment": payment})
+
     else:
         messages.error(request, "Payment verification failed")
-        return redirect("initiate-payment")
+        return redirect("initiate-payment", due_id=payment.due.id)
+    
+def view_receipt(request, ref):
+    """Display payment receipt."""
+    payment = get_object_or_404(Payment, ref=ref)
+    return render(request, "payment_receipt.html", {"payment": payment})

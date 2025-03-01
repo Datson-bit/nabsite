@@ -34,32 +34,9 @@
           font-size: 0.9em;
           color: #555;
         }
-      </style></head><br /><br />
-    <div class="container">
-      <div class="row">
-        {%for item in due%}
-        <div class="col-sm-4">
-          <div class="card" style="width: 18rem; margin-bottom:20px">
-            <div class="card-body">
-              <h5 class="card-title">{{item.name}}Dues</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{item.amount}}</h6>
-              <p class="card-text">{{item.description}}</p>
-              <button class="card-link btn btn-primary">
-                <a
-                  class="card-link"
-                  href="{% url 'initiate-payment' item.id%}"
-                  style="color: white"
-                  >Pay now</a
-                >
-              </button>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
-      </div>
-          {%endfor%}
-      </div>
-    </div>
-        <br /><br /><br />
+      </style><br /><br />
+   
+       
         <div class="donation-container" style="text-align: center">
           <h2>Steps to support us</h2>
           <p>Please follow the steps below to contribute:</p>
@@ -90,6 +67,16 @@
       </div>
     </div>
   </div>
+</div>
+<!-- Payment of Dues Section -->
+<div style="text-align: center; padding: 20px;">
+  <p style="font-size: 16px; font-weight: bold; color: #333;">For Payment of Dues</p>
+  <a href="{% url 'dues' %}" 
+     style="display: inline-block; background-color: #00b98e; color: white; 
+            padding: 12px 20px; font-size: 16px; font-weight: bold; 
+            text-decoration: none; border-radius: 5px; transition: 0.3s;">
+    Pay Now
+  </a>
 </div>
 <!-- Donation End -->
 

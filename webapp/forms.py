@@ -25,7 +25,7 @@ class SubscriberForm(forms.ModelForm):
 class PaymentForm(forms.ModelForm):
     class Meta:
         model = Payment
-        fields = ['name', 'email']
+        fields = ['name', 'phone_number','email', ]
         widgets={
             'name':forms.TextInput(attrs={
                 'class': 'form-control',
@@ -34,5 +34,9 @@ class PaymentForm(forms.ModelForm):
            
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
-            })
+            }),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            
         }

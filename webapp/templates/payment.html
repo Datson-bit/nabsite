@@ -1,10 +1,59 @@
 {% extends "base.html" %} {%block content%}
 <script src="https://js.paystack.co/v1/inline.js"></script>
-<br /><br /><br /><br /><br />
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+  .payment-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  .info-box {
+    background: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .confirm-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  .btn-pay {
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  .btn-pay:hover {
+    background-color: Teal;
+  }
+</style>
+<br> <br> <br> <br>
 <div class="container">
-  <button onclick="payWithPaystack()" class="btn btn-success">Pay Now</button>
+  <div class="payment-container">
+    <h4 class="text-center mb-4">Confirm Your Details</h4>
+
+    <div class="info-box">
+      <p><strong>Full Name:</strong> {{ payment.name }}</p>
+      <p><strong>Email:</strong> {{ payment.email }}</p>
+      <p><strong>Phone Number:</strong> {{ payment.phone_number }}</p>
+      <p><strong>Amount:</strong> ₦{{ payment.amount }}</p>
+    </div>
+
+    <p class="confirm-text text-center">
+      Please double-check your details before proceeding with the payment.
+    </p>
+
+    <button class="btn btn-primary btn-pay" type="submit" onclick="payWithPaystack()">
+      Proceed to Paystack <i class="bi bi-arrow-right-circle"></i>
+    </button>
+  </div>
 </div>
-<br />
 <script>
   function payWithPaystack() {
       var handler = PaystackPop.setup({

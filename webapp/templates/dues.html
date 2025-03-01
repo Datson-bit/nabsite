@@ -1,0 +1,28 @@
+{% extends "base.html" %} 
+{% block title %}Nabwes Dues{% endblock title %}
+{% block content %}
+<br/><br/><br/><br/><br/> <br/>
+<div class="container">
+    <div class="row">
+      {%for item in dues%}
+      <div class="col-sm-4">
+        <div class="card" style="width: 18rem; margin-bottom:20px">
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{item.amount}}</h6>
+            <p class="card-text">{{item.description}}</p>
+            <button class="card-link btn btn-primary">
+              <a
+                class="card-link"
+                href="{% url 'initiate-payment' item.id%}"
+                style="color: white"
+                >Pay now</a
+              >
+            </button>
+          </div>
+      </div>
+    </div>
+</div>
+</div>
+        {%endfor%}
+{% endblock content %}

@@ -7,6 +7,13 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
+    <meta property="og:title" content="{{ blogs.title }}" />
+    <meta property="og:description" content="{{ blogs.desc }}" />
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ blogs.img_url.url }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:type" content="article" />
+
+
     <link rel="icon" href="https://res.cloudinary.com/djy17epwn/image/upload/v1735047675/nabwes_g07j8x.png" type="image/url">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
